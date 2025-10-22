@@ -1,8 +1,8 @@
 # Ignore the top-level config folder
-/config/
+Samples/custom-data-feeds/csv-full-fetch-read-only-points/config/
  
 # Ignore the framework folder
-/framework/
+Samples/custom-data-feeds/csv-full-fetch-read-only-points/framework/
  
 # Ignore node_modules
 /node_modules/
