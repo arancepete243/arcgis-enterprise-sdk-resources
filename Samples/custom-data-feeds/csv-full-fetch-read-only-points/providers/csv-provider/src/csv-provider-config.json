@@ -1,5 +1,5 @@
 {
-    "dataDir":"./data",
+    "dataDir":"data",
     "delimiter": ",",
     "metadata": {
         "idField": "Id",
