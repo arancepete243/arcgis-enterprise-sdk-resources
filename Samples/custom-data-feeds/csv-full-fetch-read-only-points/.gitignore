@@ -4,6 +4,9 @@
 # Ignore the framework folder
 /framework/
 
+# Ignore the csv provider config
+/providers/csv-provider/src/csv-provider-config.json
+
 # Ignore node_modules
 /node_modules/
 /providers/csv-provider/node_modules/
