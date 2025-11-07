@@ -5,6 +5,10 @@ This sample provider fetches data from the [National Renewable Energy Laboratory
 ## Supported ArcGIS Enterprise SDK Versions
 **12.0**
 
+Looking for 11.x versions of this sample?
+[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/nrel-hybrid-ready-only-points)
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/nrel-hybrid-ready-only-points)
+
 ## About the Provider
 
 Generally, providers can be defined as either ['full-fetch'](https://developers.arcgis.com/enterprise-sdk/guide/custom-data-feeds/create-a-custom-data-feed-provider/) or ['pass-through'](https://developers.arcgis.com/enterprise-sdk/guide/custom-data-feeds/create-a-custom-data-feed-provider/). Occassionally, providers can't fully use one of these two patterns due to limitations in connecting to the data source. For example, the API for NREL data on alternative fuel stations does not provide a way to paginate results. A pass-through provider cannot be used to fetch the data in manageable chunks by requesting the next page of data until all are retrieved. The dataset is also too large return with a single request. Furthermore, the API rate limit is quite strict, limiting the number of requests to 1000 per hour.
