@@ -9,7 +9,7 @@ labeling and feature styling.
 **12.0**
 
 Looking for 11.x versions of this sample?
-[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/yelp-full-fetch-ready-only-points)
+[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/yelp-full-fetch-ready-only-points),
 [11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/yelp-full-fetch-ready-only-points)
 
 ## Set up the Provider
@@ -74,7 +74,7 @@ Looking for 11.x versions of this sample?
 2.  Open a command prompt and navigate to the custom data app directory.
 3.  Run the `cdf export yelp-data-provider` command.
 4.  In a web browser, navigate to the ArcGIS Server Administrator
-    Directory and sign in as an administrator.
+    Directory and sign in as an administrator. Alternatively, you can use the [ArcGIS Server Manager](https://enterprise.arcgis.com/en/server/latest/develop/linux/administer-custom-data-providers-using-server-manager.htm) workflow.
 5.  Click **uploads \> upload**.
 6.  On the **Upload Item** page, click **Choose File** and select the
     **yelp-data-provider.cdpk** file. Optionally, provide a description

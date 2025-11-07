@@ -6,7 +6,7 @@ This sample provider fetches data from the [National Renewable Energy Laboratory
 **12.0**
 
 Looking for 11.x versions of this sample?
-[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/nrel-hybrid-ready-only-points)
+[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/nrel-hybrid-ready-only-points),
 [11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/nrel-hybrid-ready-only-points)
 
 ## About the Provider
@@ -118,7 +118,7 @@ A portion of the `model.js` file is shown below demonstrating using multiple req
 2.  Open a command prompt and navigate to the custom data app directory.
 3.  Run the `cdf export nrel-alt-fuel-provider` command.
 4.  In a web browser, navigate to the ArcGIS Server Administrator
-    Directory and sign in as an administrator.
+    Directory and sign in as an administrator. Alternatively, you can use the [ArcGIS Server Manager](https://enterprise.arcgis.com/en/server/latest/develop/linux/administer-custom-data-providers-using-server-manager.htm) workflow.
 5.  Click **uploads \> upload**.
 6.  On the **Upload Item** page, click **Choose File** and select the
     **nrel-alt-fuel-provider.cdpk** file. Optionally, provide a description in
