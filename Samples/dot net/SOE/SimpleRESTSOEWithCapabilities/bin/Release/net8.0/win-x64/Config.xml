@@ -9,7 +9,7 @@
   <Company />
   <Date>2018-04-05T16:00:22</Date>
   <Targets>
-    <Target name="Server" version="11.5" />
+    <Target name="Server" version="12.0" />
   </Targets>
   <AddIn language="CLR" library="NetSimpleRESTSOEWithCapabilities.dll" namespace="NetSimpleRESTSOEWithCapabilities">
     <ServerObjectType>

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,9 +9,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GetRasterStatistics")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ESRI")]
-[assembly: AssemblyProduct("GetRasterStatistics")]
-[assembly: AssemblyCopyright("Copyright © ESRI 2024")]
+[assembly: AssemblyCompany("Esri")]
+[assembly: AssemblyProduct("ArcGIS Enterprise SDK")]
+[assembly: AssemblyCopyright("Copyright ©  2024 Esri Inc. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -35,11 +36,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-
-[assembly: ESRI.Server.SOESupport.AddInPackage("GetRasterStatistics", "df6efd2a-98d6-4301-8b38-49a140c5d4ba",
-    Company = "ESRI",
-    Date = "2/28/2024 8:22:11 PM",
+[assembly: ESRI.Server.SOESupport.AddInPackage("NetLayerAccessSOI", "baafb83a-26e7-45c0-a9fe-c85fcb278f2a",
+    Author = "cont_chau",
+    Company = "",
+    Date = "4/5/2018 4:55:49 PM",
     Description = "",
     TargetProduct = "Server",
-    TargetVersion = "11.3",
+    TargetVersion = "12.0",
     Version = "1.0")]

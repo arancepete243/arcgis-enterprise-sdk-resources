@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/downloadfilerestsoe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/downloadfilerestsoe/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/findnearbyfeaturesrestsoe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/findnearbyfeaturesrestsoe/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/findnearbyfeaturessoapsoe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/findnearbyfeaturessoapsoe/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplerestimagesoe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplerestimagesoe/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplerestsoe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplerestsoe/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplerestsoewithcapabilities/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplerestsoewithcapabilities/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplerestsoewithproperties/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplerestsoewithproperties/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplesoapsoe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simplesoapsoe/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/untracingrestsoe/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/untracingrestsoe/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

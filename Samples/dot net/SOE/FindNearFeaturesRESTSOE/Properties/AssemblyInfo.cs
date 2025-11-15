@@ -37,9 +37,10 @@ using System.Runtime.InteropServices;
 
 
 [assembly: ESRI.Server.SOESupport.AddInPackage("NetFindNearFeaturesRESTSOE", "e2dcaefa-2d03-4c03-ad9b-c3f2a8ed70d8",
-    Company = "ESRI",
+    Author = "cont_chau",
+    Company = "",
     Date = "4/5/2018 4:19:48 PM",
     Description = "",
     TargetProduct = "Server",
-    TargetVersion = "11.5",
+    TargetVersion = "12.0",
     Version = "1.0")]
