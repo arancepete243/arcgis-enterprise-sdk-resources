@@ -1,19 +1,4 @@
-/* Copyright 2025 Esri
-
-Licensed under the Apache License Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-const koopConfig = require("config");
+const koopConfig = require("./duckdb-config.json");
 const duckdb = require("duckdb");
 const fs = require("fs");
 const {
@@ -26,42 +11,13 @@ const {
 
 class Model {
 	constructor(koop) {
-		try {
-			validateConfig(koopConfig);
-		} catch (error) {
-			throw error;
-		}
+		// try {
+		// 	validateConfig(koopConfig);
+		// } catch (error) {
+		// 	throw error;
+		// }
 		this.db = new duckdb.Database(":memory:");
 		const deltaConfig = koopConfig.duckdb.sources.deltaTable;
-		const minioConfig = koopConfig.duckdb.sources.minio;
-		const localParquetConfig = koopConfig.duckdb.sources.localParquet;
-
-		var localParquetCreateClause = ``;
-		if (localParquetConfig) {
-			localParquetCreateClause = `CREATE TABLE ${localParquetConfig.properties.name} AS 
-						SELECT * EXCLUDE ${localParquetConfig.WKBColumn}, 
-						ST_GeomFromWKB(CAST(${localParquetConfig.WKBColumn} AS BLOB)) AS ${localParquetConfig.geomOutColumn}, 
-						CAST(row_number() OVER () AS INTEGER) AS ${localParquetConfig.idField}
-						FROM read_parquet('${localParquetConfig.path}/*.parquet', hive_partitioning = true);`;
-		}
-
-		var minioCreateClause = ``;
-		if (minioConfig) {
-			var secretClause = `INSTALL 'httpfs';
-								LOAD 'httpfs';
-								SET s3_region='${minioConfig.s3Region}';
-								SET s3_url_style='path';
-								SET s3_endpoint='${minioConfig.s3Url}';
-								SET s3_access_key_id='${minioConfig.s3AccessKeyId}';
-								SET s3_secret_access_key='${minioConfig.s3Secret}';
-								SET s3_use_ssl = false;`;
-			minioCreateClause = `${secretClause}
-						CREATE TABLE ${minioConfig.properties.name} AS 
-						SELECT * EXCLUDE ${minioConfig.WKBColumn}, 
-						ST_GeomFromWKB(CAST(${minioConfig.WKBColumn} AS BLOB)) AS ${minioConfig.geomOutColumn}, 
-						CAST(row_number() OVER () AS INTEGER) AS ${minioConfig.idField}
-						FROM read_parquet('s3://${minioConfig.s3BucketName}/${minioConfig.properties.name}.parquet/*.parquet', hive_partitioning = true);`;
-		}
 
 		var deltaCreateClause = ``;
 		if (deltaConfig) {
@@ -76,15 +32,28 @@ class Model {
 						FROM delta_scan('${deltaConfig.deltaUrl}');`;
 		}
 
+		const azureConfig = koopConfig.duckdb.sources.azureParquet;
+		var azureCreateClause = ``;
+		if (azureConfig) {
+			var secretClause = `INSTALL delta;LOAD delta;
+								INSTALL azure;LOAD azure;
+								CREATE SECRET azureconn (TYPE AZURE, CONNECTION_STRING 'abfss://${azureConfig.azureStorageConnStr}');`;
+								azureCreateClause = `${secretClause}
+						CREATE TABLE ${azureConfig.properties.name} AS 
+						SELECT * EXCLUDE ${azureConfig.WKBColumn}, 
+						ST_GeomFromWKB(CAST(${azureConfig.WKBColumn} AS BLOB)) AS ${azureConfig.geomOutColumn}, 
+						CAST(row_number() OVER () AS INTEGER) AS ${azureConfig.idField}
+						FROM read_parquet('${azureConfig.dataUrl}/*.parquet', hive_partitioning = true)
+						WHERE ST_Intersects(${azureConfig.geomOutColumn}, ST_MakeEnvelope(-74.351349, 40.393608, -72.880554, 41.331241));`;
+		}
+
 		const initQuery = `INSTALL spatial; LOAD spatial; 
-						${deltaCreateClause}
-						${minioCreateClause}
-						${localParquetCreateClause}`;
+						${azureCreateClause}`;
 		this.db.all(initQuery, function (err, res) {
 			if (err) {
 				console.error(err);
 			}
-			console.log(`🦆 DuckDB initialized with ${res[0].Count} rows 🦆`);
+			console.log(`✅ Server initialized with ${res[0].Count} rows ✅`);
 		});
 	}
 
@@ -100,7 +69,7 @@ class Model {
 			// TODO: speed up returnIdsOnly with large datasets
 			const { resultRecordCount, returnCountOnly } = geoserviceParams;
 			const config = koopConfig["duckdb"];
-			const sourceId = req.params.id;
+			const sourceId = "azureParquet";
 			const sourceConfig = config.sources[sourceId];
 			// only return back one row for metadata purposes
 			const isMetadataRequest =
@@ -133,19 +102,48 @@ class Model {
 			}
 
 			this.db.all(sqlQuery, (err, rows) => {
-				let geojson = { type: "FeatureCollection", features: [] };
 				if (err) {
 					console.error(err);
-					callback(null, geojson);
+					return callback(null, { type: "FeatureCollection", features: [] });
 				}
-				if (rows.length == 0) {
-					return callback(null, geojson);
-				}
+
+				// Convert BigInt in the raw rows first
+				const safeRows = deepConvertBigInt(rows, { idsAsString: false }); // or true if you want string IDs
+
+				let totalMatchingRows = 0;
 				if (returnCountOnly) {
-					geojson.count = Number(rows[0]["count(1)"]);
+					totalMatchingRows = Number(safeRows[0]["count(1)"] ?? 0);
+				} else if (safeRows[0]?.total_count !== undefined) {
+					totalMatchingRows = Number(safeRows[0].total_count);
 				} else {
-					geojson = translateToGeoJSON(rows, sourceConfig);
+					totalMatchingRows = safeRows.length; // I don't know if I need this
 				}
+
+				console.log(`📊 Total matching records: ${totalMatchingRows}`);
+				console.log(`Total rows returned: ${safeRows.length}`);
+
+				let exceededTransferLimit = false;
+				if (
+					!returnCountOnly &&
+					totalMatchingRows > sourceConfig.maxRecordCountPerPage &&
+					safeRows.length === sourceConfig.maxRecordCountPerPage  // you could have situation where exactly 10K were left on final query
+				) {
+					exceededTransferLimit = true;
+				}
+				console.log(`ExcededTransferLimit: ${exceededTransferLimit}`);
+
+				let geojson = { type: "FeatureCollection", features: [] };
+				if (safeRows.length === 0) {
+					// build empty response with metadata...
+				} else if (returnCountOnly) {
+					geojson.count = totalMatchingRows;
+				} else {
+					// Ensure translateToGeoJSON doesn't reintroduce BigInt.
+					geojson = translateToGeoJSON(safeRows, sourceConfig);
+				}
+
+				// Convert any BigInt that might remain (defensive)
+				geojson = deepConvertBigInt(geojson, { idsAsString: false });
 
 				geojson.filtersApplied = generateFiltersApplied(
 					geoserviceParams,
@@ -155,22 +153,50 @@ class Model {
 				geojson.metadata = {
 					...sourceConfig.properties,
 					maxRecordCount: sourceConfig.maxRecordCountPerPage,
+					exceededTransferLimit,
+					supportedQueryFormats: "JSON",
 					idField: sourceConfig.idField,
 					...(dbExtent && { extent: dbExtent }),
 				};
 				geojson.crs = {
 					type: `${sourceConfig.dbWKID}`,
-					properties: {
-						name: `urn:ogc:def:crs:EPSG::${sourceConfig.dbWKID}`,
-					},
+					properties: { name: `urn:ogc:def:crs:EPSG::${sourceConfig.dbWKID}` },
 				};
+
+				// Final safety conversion before sending out
+				geojson = deepConvertBigInt(geojson, { idsAsString: false });
+
 				callback(null, geojson);
 			});
 		} catch (error) {
 			console.error(error);
 			callback(null, { type: "FeatureCollection", features: [] });
 		}
+
+
+		function convertBigInt(value, { idsAsString = false } = {}) {
+		if (typeof value === 'bigint') {
+			// Decide how to represent BigInt
+			return idsAsString ? value.toString() : Number(value);
+		}
+		return value;
+		}
+
+		function deepConvertBigInt(obj, opts = {}) {
+		if (Array.isArray(obj)) {
+			return obj.map((v) => deepConvertBigInt(v, opts));
+		}
+		if (obj && typeof obj === 'object') {
+			const out = {};
+			for (const [k, v] of Object.entries(obj)) {
+			out[k] = deepConvertBigInt(v, opts);
+			}
+			return out;
+		}
+		return convertBigInt(obj, opts);
+		}
 	}
+	
 }
 
 module.exports = Model;
