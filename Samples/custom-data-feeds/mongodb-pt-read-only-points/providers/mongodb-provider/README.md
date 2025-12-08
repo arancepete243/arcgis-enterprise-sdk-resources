@@ -170,6 +170,8 @@ with documents in the format below.
 
 3.  Click **Create.**
 
+Alternatively, you can create the feature service in ArcGIS Server Manager or in the Portal for ArcGIS Home Application. Use the service parameter values listed above when configuring the service.
+
 _Keep in mind that the provider code we used above assumes a database named
 **sample-data** and a collection named **fires**. If you used different names
 in your MongoDB instance, update the values of_ `dataBaseName` _and_ 

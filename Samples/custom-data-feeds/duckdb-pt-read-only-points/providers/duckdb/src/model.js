@@ -9,13 +9,11 @@ const {
 	getExtentFromGeoJson,
 } = require("./modules");
 
+let numberOfRequests = 0;
+
 class Model {
 	constructor(koop) {
-		// try {
-		// 	validateConfig(koopConfig);
-		// } catch (error) {
-		// 	throw error;
-		// }
+
 		this.db = new duckdb.Database(":memory:");
 		const deltaConfig = koopConfig.duckdb.sources.deltaTable;
 
@@ -58,6 +56,7 @@ class Model {
 	}
 
 	getData(req, callback) {
+		numberOfRequests++;
 		try {
 			// convert bools from strings
 			Object.keys(req.query).forEach((key) => {
@@ -102,49 +101,27 @@ class Model {
 			}
 
 			this.db.all(sqlQuery, (err, rows) => {
+				let geojson = { type: "FeatureCollection", features: [] };
 				if (err) {
 					console.error(err);
-					return callback(null, { type: "FeatureCollection", features: [] });
+					return callback(null, geojson);
 				}
-
-				// Convert BigInt in the raw rows first
-				const safeRows = deepConvertBigInt(rows, { idsAsString: false }); // or true if you want string IDs
-
-				let totalMatchingRows = 0;
-				if (returnCountOnly) {
-					totalMatchingRows = Number(safeRows[0]["count(1)"] ?? 0);
-				} else if (safeRows[0]?.total_count !== undefined) {
-					totalMatchingRows = Number(safeRows[0].total_count);
-				} else {
-					totalMatchingRows = safeRows.length; // I don't know if I need this
+				if (rows.length == 0) {
+					return callback(null, geojson);
 				}
-
-				console.log(`📊 Total matching records: ${totalMatchingRows}`);
-				console.log(`Total rows returned: ${safeRows.length}`);
 
 				let exceededTransferLimit = false;
-				if (
-					!returnCountOnly &&
-					totalMatchingRows > sourceConfig.maxRecordCountPerPage &&
-					safeRows.length === sourceConfig.maxRecordCountPerPage  // you could have situation where exactly 10K were left on final query
-				) {
+
+				if (!returnCountOnly && rows.length > sourceConfig.maxRecordCountPerPage) {
 					exceededTransferLimit = true;
+					rows.pop();
 				}
-				console.log(`ExcededTransferLimit: ${exceededTransferLimit}`);
 
-				let geojson = { type: "FeatureCollection", features: [] };
-				if (safeRows.length === 0) {
-					// build empty response with metadata...
-				} else if (returnCountOnly) {
-					geojson.count = totalMatchingRows;
+				if (returnCountOnly) {
+					geojson.count = Number(rows[0]["count(1)"]);
 				} else {
-					// Ensure translateToGeoJSON doesn't reintroduce BigInt.
-					geojson = translateToGeoJSON(safeRows, sourceConfig);
+					geojson = translateToGeoJSON(rows, sourceConfig);
 				}
-
-				// Convert any BigInt that might remain (defensive)
-				geojson = deepConvertBigInt(geojson, { idsAsString: false });
-
 				geojson.filtersApplied = generateFiltersApplied(
 					geoserviceParams,
 					sourceConfig.idField,
@@ -154,7 +131,6 @@ class Model {
 					...sourceConfig.properties,
 					maxRecordCount: sourceConfig.maxRecordCountPerPage,
 					exceededTransferLimit,
-					supportedQueryFormats: "JSON",
 					idField: sourceConfig.idField,
 					...(dbExtent && { extent: dbExtent }),
 				};
@@ -163,37 +139,11 @@ class Model {
 					properties: { name: `urn:ogc:def:crs:EPSG::${sourceConfig.dbWKID}` },
 				};
 
-				// Final safety conversion before sending out
-				geojson = deepConvertBigInt(geojson, { idsAsString: false });
-
 				callback(null, geojson);
 			});
 		} catch (error) {
 			console.error(error);
 			callback(null, { type: "FeatureCollection", features: [] });
-		}
-
-
-		function convertBigInt(value, { idsAsString = false } = {}) {
-		if (typeof value === 'bigint') {
-			// Decide how to represent BigInt
-			return idsAsString ? value.toString() : Number(value);
-		}
-		return value;
-		}
-
-		function deepConvertBigInt(obj, opts = {}) {
-		if (Array.isArray(obj)) {
-			return obj.map((v) => deepConvertBigInt(v, opts));
-		}
-		if (obj && typeof obj === 'object') {
-			const out = {};
-			for (const [k, v] of Object.entries(obj)) {
-			out[k] = deepConvertBigInt(v, opts);
-			}
-			return out;
-		}
-		return convertBigInt(obj, opts);
 		}
 	}
 	

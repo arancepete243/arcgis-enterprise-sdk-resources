@@ -150,6 +150,8 @@ Looking for 11.x versions of this sample?
 
 3.  Click **Create.**
 
+Alternatively, you can create the feature service in ArcGIS Server Manager or in the Portal for ArcGIS Home Application. Use the service parameter values listed above when configuring the service.
+
 ## Consume Feature Service
 
 To access the csv feature service that you created in the previous

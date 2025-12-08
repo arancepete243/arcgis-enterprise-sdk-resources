@@ -28,18 +28,18 @@ function buildSqlQuery(
   if (returnCountOnly) {
     selectClause = "COUNT(1)";
   } else if (returnIdsOnly) {
-    selectClause = `${idField}, COUNT(*) OVER() AS total_count`;
+    selectClause = `${idField}`;
   } else if (returnDistinctValues && !returnGeometry) {
-    selectClause = `${outFields}, COUNT(*) OVER() AS total_count`;
+    selectClause = `${outFields}`;
   } else if (outFields === "*") {
-    selectClause = `${outFields} EXCLUDE ${geometryField}, ST_AsGeoJSON(${geometryField}) AS ${geometryField}, COUNT(*) OVER() AS total_count`;
+    selectClause = `${outFields} EXCLUDE ${geometryField}, ST_AsGeoJSON(${geometryField}) AS ${geometryField}`;
   } else {
     var outputFields = outFields;
     if (!outFields.includes(idField)) {
       // Koop needs OBJECTID field in geojson
       outputFields = outFields.concat(`, ${idField}`);
     }
-    selectClause = `${outputFields}, ST_AsGeoJSON(${geometryField}) AS ${geometryField}, COUNT(*) OVER() AS total_count`;
+    selectClause = `${outputFields}, ST_AsGeoJSON(${geometryField}) AS ${geometryField}`;
   }
 
   const from = ` FROM ${tableName}`;
@@ -61,9 +61,8 @@ function buildSqlQuery(
 
   const limitClause =
     fetchSize && !returnIdsOnly && !returnDistinctValues
-      ? ` LIMIT ${fetchSize}`
+      ? ` LIMIT ${fetchSize + 1}`
       : "";
-
   const offsetClause =
     resultOffset && !returnIdsOnly ? ` OFFSET ${resultOffset}` : "";
 
