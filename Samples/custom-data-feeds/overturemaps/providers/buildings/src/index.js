@@ -6,6 +6,8 @@ const provider = {
   type: csconfigInfo.type,
   name: csconfigInfo.name,
   version: packageInfo.version,
+  hosts: csconfigInfo.properties.hosts,
+  disableIdParam: csconfigInfo.properties.disableIdParam,
   Model: require('./model')
 }
 
