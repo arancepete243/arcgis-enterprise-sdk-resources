@@ -15,5 +15,8 @@
   "keywords": [
     "customdata",
     "provider"
-  ]
+  ],
+  "dependencies": {
+    "duckdb": "^1.4.3"
+  }
 }
