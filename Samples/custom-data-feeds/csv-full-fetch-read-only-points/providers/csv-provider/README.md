@@ -137,7 +137,8 @@ Looking for 11.x versions of this sample?
         "customDataProviderInfo": {
           "dataProviderName": "csv-provider",
           "serviceParameters": {
-            "file_name": "RunningShoeStores.csv", "lat_column": "latitude",
+            "file_name": "RunningShoeStores.csv", 
+            "lat_column": "latitude",
             "long_column": "longitude"
           }
         }
