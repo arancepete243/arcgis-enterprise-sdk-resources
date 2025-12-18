@@ -1,0 +1,11 @@
+{
+  "name": "duckdb-filesystem-provider",
+  "arcgisVersion": "12.1.0",
+  "parentServiceType": "FeatureServer",
+  "customdataRuntimeVersion": "1",
+  "type": "provider",
+  "editingEnabled": false,
+  "properties": {
+    "serviceParameters": []
+  }
+}
