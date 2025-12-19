@@ -5,7 +5,7 @@ integrates the Oriented Imagery feature data with ArcGIS Enterprise.
 
 ## Supported ArcGIS Enterprise SDK Versions
 
-**11.5+**
+**12.0+**
 
 ## Set up the Provider
 
@@ -16,11 +16,11 @@ integrates the Oriented Imagery feature data with ArcGIS Enterprise.
 3.  Navigate to the **providers/oriented-imagery-provider**
 4.  Copy the contents of the **src** folder in the provided source code into
     the **src** folder inside your **providers/oriented-imagery-provider/src** directory.
-5.  Add the geojson file **esriBuildingE.geojson** containing the oriented imagery features in a **data** folder in **/providers/csv-provider**. The file is located in the **data** folder inside the **csv-provider** sample directory.
+5.  Add the geojson file **esriBuildingE.geojson** containing the oriented imagery features in a **data** folder in **/providers/oriented-imagery-provider**. The file is located in the **data** folder inside the **oriented-imagery-provider** sample directory.
 
 ## Configure the Provider
 
-1.  In the **providers/csv-provider/config/default.json** file set the **dataDirectory** path where
+1.  Create a file called **oriented-imagery-provider** in the directory **providers/oriented-imagery-provider/src/** and set the `dataDirectory` path where
     the **esriBuildingE.geojson** file is located.
 
     ```json
@@ -29,17 +29,23 @@ integrates the Oriented Imagery feature data with ArcGIS Enterprise.
     }
     ```
 
-2.  In the **providers/csv-provider/cdconfig.json** file, set the value of the
-    `properties.hosts` field to `false` and
-    `properties.disableIdParam` field to `false`.
+2.  In the **providers/csv-provider/cdconfig.json** file, add the following to the `serviceParameters` array:
+
+    ```json
+      {
+        "key": "fileName",
+        "label": "File Name",
+        "description": "Name of the GeoJSON file."
+      }
+    ```
 
 ## Test the Provider
 
 1.  Navigate to the **oriented-imagery-app** directory in a command prompt, and run
     the `npm start` command to start the custom data app.
-2.  In a web browser, navigate
-    to\>http://localhost:8080/oriented-imagery-provider/rest/services/my-data/FeatureServer/0/query,
-    and verify that the provider is returning data points.
+2.  In a client, send a request to
+    \>http://localhost:8080/oriented-imagery-provider/rest/services/my-data/FeatureServer/0/query,
+    with a header called `x-esri-cdf-service-params` with a value of `{"fileName": "esriBuildingE"}`and verify that the provider is returning data points.
 
 ## Build and Deploy the Custom Data Provider Package File
 
@@ -100,8 +106,7 @@ integrates the Oriented Imagery feature data with ArcGIS Enterprise.
       "jsonProperties": {
         "customDataProviderInfo": {
           "dataProviderName": "oriented-imagery-provider",
-          "dataProviderHost": "",
-          "dataProviderId": "esriBuildingE"
+          "serviceParameters": {"fileName": "esriBuildingE"}
         }
       },
       "extensions": [],

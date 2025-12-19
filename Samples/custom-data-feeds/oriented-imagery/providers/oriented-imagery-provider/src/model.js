@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const loggingPrefix = 'File GeoJSON provider: ';
-const config = require("../config/default.json");
+const config = require("./oriented-imagery-config.json");
 
 class Model {
   #dataDir;
@@ -23,7 +23,7 @@ class Model {
   }
 
   async getData(req, callback) {
-    const filePath = await this.#getFileName(req.params.id);
+    const filePath = await this.#getFileName(req.params.fileName);
     const filename = path.basename(filePath);
 
     try {
