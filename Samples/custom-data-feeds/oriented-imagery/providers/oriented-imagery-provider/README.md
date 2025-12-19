@@ -5,7 +5,10 @@ integrates the Oriented Imagery feature data with ArcGIS Enterprise.
 
 ## Supported ArcGIS Enterprise SDK Versions
 
-**12.0+**
+**12.0**
+
+Looking for 11.x versions of this sample?
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/oriented-imagery-geojson)
 
 ## Set up the Provider
 
@@ -29,7 +32,7 @@ integrates the Oriented Imagery feature data with ArcGIS Enterprise.
     }
     ```
 
-2.  In the **providers/csv-provider/cdconfig.json** file, add the following to the `serviceParameters` array:
+2.  In the **providers/oriented-imagery-provider/cdconfig.json** file, add the following to the `serviceParameters` array:
 
     ```json
       {
@@ -116,6 +119,8 @@ integrates the Oriented Imagery feature data with ArcGIS Enterprise.
     ```
 
 3.  Click **Create.**
+
+Alternatively, you can create the feature service in ArcGIS Server Manager or in the Portal for ArcGIS Home Application. Use the service parameter values listed above when configuring the service.
 
 ## Consume Feature Service
 
