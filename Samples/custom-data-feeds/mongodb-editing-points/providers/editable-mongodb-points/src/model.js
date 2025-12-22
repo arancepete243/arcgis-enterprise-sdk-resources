@@ -1,0 +1,199 @@
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const config = require('./mongo-config.json');
+const { performEdits } = require('./perform-edits');
+
+class Model {
+  #client;
+  #databaseLookup;
+  #definedCollectionsOnly;
+  #logger;
+
+  constructor(
+    { logger },
+    { connectString, databases, definedCollectionsOnly } = {},
+  ) {
+    this.#logger = logger;
+    const databaseUri = connectString || config?.editable_mongodb_points?.connectString;
+  
+    try {
+      this.#client = new MongoClient(databaseUri, {
+        serverApi: {
+          version: ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true,
+        },
+      });
+  
+      this.#databaseLookup = databases || config?.editable_mongodb_points?.databases || {};
+      this.#definedCollectionsOnly =
+        definedCollectionsOnly ||
+        config?.editable_mongodb_points?.definedCollectionsOnly ||
+        false;
+    } catch (error) {
+      // Throw an error and stop execution if MongoDB connection fails
+      throw new Error('Failed to connect to MongoDB. Please check your connection settings.');
+    }
+  }
+
+  async getMetadata() {
+    return {
+        idField: 'alternateID',
+        inputCrs: 4326
+    }
+  }
+
+  async editData(req, editData) {
+
+    // assign database and collection name from path parameters
+    const databaseName = req.params.db;
+    const collectionName = req.params.collection;
+
+    // add logic to normalize layer-level or service-level requests
+    // const extractedEdits = normalizeRequestedEdits(req.body);
+
+    const database  = this.#client.db(databaseName);
+    const collection = database.collection(collectionName);
+
+    let applyEditsResponse = {};  // initialize the response object
+
+    // call the necessary functions to handled the edits
+    applyEditsResponse = await performEdits(collection, editData);
+
+    // check if the response should be an object(layer-level) or an array(service-level)
+    // if (extractedEdits.editLevel === 'service') {
+    //   applyEditsResponse.id = extractedEdits.layer;
+    //   return [applyEditsResponse];
+
+    // }
+
+    return applyEditsResponse;
+
+  }
+
+  // this a very basic getData function that operates as full-fetch
+  async getData(req) {
+
+    const databaseName = req.params.db;
+    const collectionName = req.params.collection;
+
+    try {
+
+      const database  = this.#client.db(databaseName);
+      const collection = database.collection(collectionName);
+
+      const results = await fetchDocs(collection);
+     
+      const geojson = convertDocsToGeoJSON(results, 'location');
+
+      geojson.metadata
+
+      return {...geojson, metadata: { 
+        idField: 'alternateID', 
+        inputCrs: 4326,
+        name: 'Fires',
+        templates: [
+          {
+           "name": "Edit MongoDB Fires",
+           "description": "Template for editing fire data features",
+           "drawingTool": "esriFeatureEditToolPoint",
+           "prototype": {
+            "attributes": {}
+           }
+          }
+         ],
+        fields: [
+          {
+            "name": "_id",
+            "type": "string",
+            "alias": "mongoID",
+            "length": 128,
+            "editable": false
+          },
+          {
+            "name": "alternateID",
+            "type": "bigInteger",
+            "alias": "alternateID",
+            "editable": false
+          },
+          {
+              "name": "fireId",
+              "type": "string",
+              "alias": "fireId",
+              "length": 128,
+              "editable": true
+          },
+          {
+              "name": "fireName",
+              "type": "string",
+              "alias": "fireName",
+              "length": 128,
+              "editable": true
+          },
+          {
+              "name": "fireType",
+              "type": "string",
+              "alias": "fireType",
+              "length": 128,
+              "editable": true
+          },
+          {
+              "name": "acres",
+              "type": "string",
+              "alias": "acres",
+              "length": 128,
+              "editable": true
+          }
+        ]
+      }};
+
+    } catch (error) {
+      this.#logger.warning(error)
+      return error
+    }
+    
+  }
+}
+
+async function fetchDocs(items) {
+  const results = await items.find({}).toArray();
+  return results
+}
+
+function convertDocsToGeoJSON(docs, geometryField) {
+  const features = docs.map((record) => {
+    const { [geometryField]: geometry, ...properties } = record;
+    return { geometry, properties };
+  });
+
+  return {
+    type: 'FeatureCollection',
+    features,
+  };
+}
+
+function normalizeRequestedEdits(body) {
+  let edits = {};
+  // if it service-level, just return the object
+  if(body.edits) { 
+  
+    return {
+      edits: body.edits[0],
+      editLevel : 'service',
+      layer: body.edits[0].id
+    }
+  // handle the layer level request
+  } else {
+    if(body.adds) edits.adds = body.adds;
+    if(body.updates) edits.updates = body.updates;
+    if(body.deletes) {
+      let deletesArray = [body.deletes];
+      edits.deletes = deletesArray;
+    }
+    return {
+      edits: edits,
+      editLevel: 'layer'
+    }
+  }
+}
+
+module.exports = Model;
