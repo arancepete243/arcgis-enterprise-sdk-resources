@@ -74,7 +74,7 @@ Looking for 11.x versions of this sample?
 1.  Navigate to the **csv-app** directory in a command prompt, and run
     the `npm start` command to start the custom data app.
 2.  Send a GET request
-    to: http://localhost:8080/csv-provider/rest/services/my-data/FeatureServer/0/query with the header `x-esri-cdf-service-params` and value `{"file_name": "RunningShoeStores.csv", "lat_column": "latitude","long_column": "longitude"}`.
+    to: http://localhost:8080/csv-provider/rest/services/FeatureServer/0/query with the header `x-esri-cdf-service-params` and value `{"file_name": "RunningShoeStores.csv", "lat_column": "latitude","long_column": "longitude"}`.
     Verify that the provider is returning data points.
 
 ## Build and Deploy the Custom Data Provider Package File

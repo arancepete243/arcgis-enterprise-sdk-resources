@@ -92,9 +92,9 @@ with documents in the format below.
 
 1.  Navigate to the **mongodb-app** directory in a command prompt, and
     run the `npm start` command to start the custom data app.
-2.  In a web browser, navigate to
-    http://localhost:8080/mongodb-provider/rest/services/FeatureServer/0/query
-    and verify that the MongoDB provider is returning data points.
+2.  Send a GET request
+    to: http://localhost:8080/monogodb-provider/rest/services/FeatureServer/0/query with the header `x-esri-cdf-service-params` and value `{"dataBaseName": "sample-data", "collectionName": "fires"}`.
+    Verify that the provider is returning data points.
 
 ## Build and Deploy the Custom Data Provider Package File
 
