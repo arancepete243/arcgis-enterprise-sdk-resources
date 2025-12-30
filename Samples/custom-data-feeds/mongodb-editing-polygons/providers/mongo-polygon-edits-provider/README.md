@@ -86,8 +86,7 @@ Notice in the document above the attribute `alternateID`. ArcGIS does not curren
     
     Set `"editingEnabled": true`.
 
-2.  Create a file called **mongo-config.json** in the **providers/mongo-polygon-edits-provider/** folder in the **provider/mongo-polygon-edits-provider/         
-    ** directory. Configure your MongoDB connection. The `connectString` in this sample assumes a locally running instance of MongoDB. **mongo-config.json** will look similar to this:
+2.  Create a file called **mongo-config.json** in the **providers/mongo-polygon-edits-provider/src** directory. Configure your MongoDB connection. The `connectString` in this sample assumes a locally running instance of MongoDB. **mongo-config.json** will look similar to this:
 
     ```json
         {
@@ -134,23 +133,23 @@ Notice in the document above the attribute `alternateID`. ArcGIS does not curren
 
 ## Build and Deploy the Custom Data Provider Package File
 
-3.  Stop the custom data app if it is running.
-4.  Open a command prompt and navigate to the custom data app directory.
-5.  Run the `cdf export mongo-polygon-edits-provider` command.
-6.  In a web browser, navigate to the ArcGIS Server Administrator
+1.  Stop the custom data app if it is running.
+2.  Open a command prompt and navigate to the custom data app directory.
+3.  Run the `cdf export mongo-polygon-edits-provider` command.
+4.  In a web browser, navigate to the ArcGIS Server Administrator
     Directory and sign in as an administrator.
-7.  Click **uploads \> upload**.
-8.  On the **Upload Item** page, click **Choose File** and select the
+5.  Click **uploads \> upload**.
+6.  On the **Upload Item** page, click **Choose File** and select the
     **mongo-polygon-edits-provider.cdpk** file. Optionally, provide a
     description in the **Description** text box.
-9.  Click **Upload**. Once the file is uploaded, you will be directed to
+7.  Click **Upload**. Once the file is uploaded, you will be directed to
     a page with the following header: **Uploaded item - \<item_id\>** .
     Copy the item id.
-10. Browse back to the root of the Administrator Directory and then
+8. Browse back to the root of the Administrator Directory and then
     click **services \> types \> customdataproviders**.
-11. On the **Registered Customdata Providers** page, click register and
+9. On the **Registered Customdata Providers** page, click register and
     paste the item id into the **Id of uploaded item** field.
-12. Click **Register**.
+10. Click **Register**.
 
 ## Create Feature Service
 

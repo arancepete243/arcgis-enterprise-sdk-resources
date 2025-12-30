@@ -9,7 +9,6 @@ const {
 	getExtentFromGeoJson,
 } = require("./modules");
 const { 
-	// normalizeRequestedEdits, 
 	syncWALandDB, 
 	insertRows, 
 	updateRows, 

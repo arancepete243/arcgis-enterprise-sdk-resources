@@ -97,6 +97,20 @@ Notice in the document above the attribute `alternateID`. ArcGIS does not curren
 2.  Send a GET request
     to: http://localhost:8080/editable-monogodb-points/rest/services/FeatureServer/0/query with the header `x-esri-cdf-service-params` and value `{"database": "editable-sample-fires", "collection": "fires"}`.
     Verify that the provider is returning data points.
+3. Send a properly formatted POST request to: http://localhost:8080/editable-monogodb-points/rest/services/FeatureServer/applyEdits with the header `x-esri-cdf-service-params` and value `{"database": "editable-sample-fires", "collection": "fires"}`. Sample POST request:
+
+    ```curl
+        curl --location 'https://localhost:8080/editable-mongodb-points/rest/services/FeatureServer/applyEdits' \
+        --header 'x-esri-cdf-service-params: {"collection": "fires","db": "editable-sample-fires"}' \
+        --header 'Content-Type: application/x-www-form-urlencoded' \
+        --data-urlencode 'f=json' \
+        --data-urlencode 'rollbackOnFailure=true' \
+        --data-urlencode 'useGlobalIds=false' \
+        --data-urlencode 'async=false' \
+        --data-urlencode 'edits=[{"id":0,"adds":[{"geometry":{"spatialReference":{"latestWkid":3857,"wkid":102100},"x":-11580849.34814877,"y":5772969.114195114},"attributes":{"fireId":"44444","fireName":"Big One","fireType":"Wild","acres":"3434"}}],"updates":null,"deletes":null,"attachments":null,"assetMaps":null}]' \
+        --data-urlencode 'returnServiceEditOptions=originalAndCurrentFeatures'
+
+    ```
 
 ## Build and Deploy the Custom Data Provider Package File
 
