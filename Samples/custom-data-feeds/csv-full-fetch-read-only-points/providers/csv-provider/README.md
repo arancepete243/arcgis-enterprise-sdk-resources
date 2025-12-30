@@ -30,23 +30,14 @@ Looking for 11.x versions of this sample?
     value may be different.
 
     ```json
-    {
-      "csv-provider": {
-        "sources": {
-          "my-data": {
-            "url": "../data/RunningShoeStores.csv",
-            "geometryColumns": {
-              "Longitude": "longitude",
-              "Latitude": "latitude"
-            },
-            "delimiter": ",",
-            "metadata": {
-              "idField": "Id"
-            }
+      {
+          "dataDir":"data",
+          "delimiter": ",",
+          "metadata": {
+              "idField": "Id",
+              "dataCrs": 4326
           }
-        }
       }
-    }
     ```
 
 2.  In the **providers/csv-provider/cdconfig.json** file, add the following to the `serviceParameters` array:
