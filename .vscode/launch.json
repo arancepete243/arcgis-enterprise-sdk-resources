@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "cwd":"${workspaceFolder}\\Samples\\custom-data-feeds\\duckdb-editing-points-filesystem\\src",
+            "cwd":"${workspaceFolder}\\Samples\\custom-data-feeds\\google-sheets-editing-points\\src",
             "command": "npm start -- --port 8080 --self-signed-cert --log-level=debug",
             "name": "Launch CDF with SSL",
             "request": "launch",

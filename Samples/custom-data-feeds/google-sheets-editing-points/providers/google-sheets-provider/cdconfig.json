@@ -1,0 +1,22 @@
+{
+  "name": "google-sheets-provider",
+  "arcgisVersion": "12.0.0",
+  "parentServiceType": "FeatureServer",
+  "customdataRuntimeVersion": "1",
+  "type": "provider",
+  "editingEnabled": true,
+  "properties": {
+    "serviceParameters": [
+      {
+        "key": "docID",
+        "label": "Google Document ID",
+        "description": "Unique ID of the parent Google Document"
+      },
+      {
+        "key": "sheetName",
+        "label": "Google Sheet Name",
+        "description": "Name of Google Sheet in the Document"
+      }
+    ]
+  }
+}
