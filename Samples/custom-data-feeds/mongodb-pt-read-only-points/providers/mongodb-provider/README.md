@@ -66,7 +66,7 @@ with documents in the format below.
         }
 ```
 
-2.  In the **providers/mongodb-provider/mongodb-provider-config.json** file, configure your MongoDB
+2.  In the **providers/mongodb-provider/src/mongodb-provider-config.json** file, configure your MongoDB
     connection details. This sample assumes a locally running instance of MongoDB. It will look similar to this:
 
 ```json

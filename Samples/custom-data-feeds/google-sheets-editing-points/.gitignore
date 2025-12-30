@@ -21,7 +21,7 @@
 /package-lock.json
 /providers/google-sheets-provider/config/default.json
 /providers/google-sheets-provider/package-lock.json
-/providers/google-sheets-provider/google-config.json
+/providers/google-sheets-provider/src/google-config.json
 
 
 # Ignore cdpks

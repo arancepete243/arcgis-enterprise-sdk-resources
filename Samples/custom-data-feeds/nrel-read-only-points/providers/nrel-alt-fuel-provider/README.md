@@ -91,7 +91,7 @@ A portion of the `model.js` file is shown below demonstrating using multiple req
     obtain a private API key.
 
 2.  Once you have an API key, specify it in the
-    **providers/nrel-alt-fuel-provider/nrel-config.json** file as the value for
+    **providers/nrel-alt-fuel-provider/src/nrel-config.json** file as the value for
     the **altFuelStations.apiKey** field as shown.
 
     ```json

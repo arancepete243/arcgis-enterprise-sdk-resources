@@ -74,7 +74,7 @@ Follow these basic steps for setting up a Google Sheet and obtaining developer c
 
     Set `"editingEnabled": true`.
 
-2.  Create a file called **google-config.json** in the **providers/google-sheets-provider/** directory, configure       
+2.  Create a file called **google-config.json** in the **providers/google-sheets-provider/src** directory, configure       
     the Google Developer credentials in the file. These are in the JSON file you downloaded above.
 
 ````json

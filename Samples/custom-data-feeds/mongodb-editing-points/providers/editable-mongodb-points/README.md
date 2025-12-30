@@ -68,7 +68,7 @@ Notice in the document above the attribute `alternateID`. ArcGIS does not curren
     Set `"editingEnabled": true`.
 
 
-2.  Create a file the **providers/editable-mongodb-points/** directory called **mongo-config.json** with the following code:
+2.  Create a file the **providers/editable-mongodb-points/src** directory called **mongo-config.json** with the following code:
 
     ```json
         {
