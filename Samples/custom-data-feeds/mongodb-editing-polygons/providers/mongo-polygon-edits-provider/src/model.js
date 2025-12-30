@@ -1,6 +1,6 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const config = require('config');
-const { normalizeRequestedEdits, performEdits, fetchDocs, convertDocsToGeoJSON } = require('./helpers');
+const config = require('./mongo-config.json');
+const { performEdits, fetchDocs, convertDocsToGeoJSON } = require('./helpers');
 
 class Model {
   #client;
@@ -35,27 +35,25 @@ class Model {
     }
   }
 
-  async editData(pathParams, body) {
+  async getMetadata() {
+    return {
+        idField: 'alternateID',
+        inputCrs: 4326
+    }
+  }
 
-    const databaseName = pathParams.host;
-    const collectionName = pathParams.id;
+  async editData(req, editData) {
 
-    // add logic to normalize layer-level or service-level requests
-    const extractedEdits = normalizeRequestedEdits(body);
+    // assign database and collection from service
+    const databaseName = req.params.db;
+    const collectionName = req.params.collection;
 
     const database  = this.#client.db(databaseName);
     const collection = database.collection(collectionName);
 
     let applyEditsResponse = {}
 
-    applyEditsResponse = await performEdits(collection, extractedEdits.edits);
-
-    // check if the response should be object(layer-level) or array(service-level)
-    if (extractedEdits.editLevel === 'service') {
-      applyEditsResponse.id = extractedEdits.layer;
-      return [applyEditsResponse];
-
-    }
+    applyEditsResponse = await performEdits(collection, editData);
 
     return applyEditsResponse;
 
@@ -64,8 +62,9 @@ class Model {
   // this a bare bones getData function not intended to be a full example
   async getData(req) {
 
-    const databaseName = req.params.host;
-    const collectionName = req.params.id;
+    // assign database and collection name from service parameters
+    const databaseName = req.params.db;
+    const collectionName = req.params.collection;
 
     try {
 

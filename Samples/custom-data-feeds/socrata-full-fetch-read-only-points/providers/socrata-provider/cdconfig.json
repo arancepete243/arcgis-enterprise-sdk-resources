@@ -1,12 +1,28 @@
 {
   "name": "socrata-provider",
-  "arcgisVersion": "11.4.0",
+  "arcgisVersion": "12.0.0",
   "parentServiceType": "FeatureServer",
   "customdataRuntimeVersion": "1",
   "type": "provider",
+  "editingEnabled": false,
   "properties": {
-    "hosts": true,
-    "disableIdParam": false
+    "serviceParameters": [
+      {
+        "key": "domainURL",
+        "label": "Domain URL",
+        "description": "URL for host organization (e.g. data.lacity.org)."
+      },
+      {
+        "key": "UID",
+        "label": "Dataset UID",
+        "description": "UID for the dataset aka Dataset 4x4."
+      },
+      {
+        "key": "layerName",
+        "label": "Layer Name",
+        "description": "Enter a layer name relevant to the the dataset."
+      }
+    ]
   },
   "fileName": "socrata-provider.cdpk"
 }

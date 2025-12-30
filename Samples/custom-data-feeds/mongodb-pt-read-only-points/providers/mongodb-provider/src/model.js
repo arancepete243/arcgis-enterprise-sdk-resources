@@ -1,5 +1,5 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const config = require('config');
+const config = require('./mongodb-provider-config.json');
 const { convertGeoserviceParamsToDbParams } = require('./helpers');
 
 const filtersApplied = {
@@ -13,7 +13,6 @@ const filtersApplied = {
 class Model {
   #client;
   #databaseLookup;
-  #definedCollectionsOnly;
   #logger;
 
   constructor(
@@ -33,10 +32,6 @@ class Model {
       });
 
       this.#databaseLookup = databases || config?.mongodb_provider?.databases || {};
-      this.#definedCollectionsOnly =
-        definedCollectionsOnly ||
-        config?.mongodb_provider?.definedCollectionsOnly ||
-        false;
     } catch (error) {
       // Throw an error and stop execution if MongoDB connection fails
       throw new Error('Failed to connect to MongoDB. Please check your connection settings.');
@@ -45,8 +40,8 @@ class Model {
 
   async getData(req) {
     // Get  the "host" and "id" parameters from route-path
-    const databaseName = req.params.host;
-    const collectionName = req.params.id;
+    const databaseName = req.params.dataBaseName;
+    const collectionName = req.params.collectionName;
 
     // Get request query/body params
     const geoserviceParams = this.#parseParams(req.query);
@@ -120,13 +115,6 @@ class Model {
     // Lookup collection config
     const collectionConfig =
       this.#databaseLookup[databaseName]?.[collectionName];
-
-    // If no defined collection-config and definedCollectionsOnly, reject with 404
-    if (!collectionConfig && this.#definedCollectionsOnly) {
-      const error = new Error('Not Found');
-      error.code = 404;
-      throw error;
-    }
 
     // Get collection specific config data
     return this.#databaseLookup[databaseName]?.[collectionName] || {};
