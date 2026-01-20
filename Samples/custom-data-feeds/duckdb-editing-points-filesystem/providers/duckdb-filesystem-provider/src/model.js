@@ -1,4 +1,4 @@
-const localConfig = require("config");
+const localConfig = require("./duckdb-config.json");
 const duckdb = require("duckdb");
 const path = require("path");
 const {
@@ -9,7 +9,6 @@ const {
 	getExtentFromGeoJson,
 } = require("./modules");
 const { 
-	normalizeRequestedEdits, 
 	syncWALandDB, 
 	insertRows, 
 	updateRows, 
@@ -50,32 +49,35 @@ class Model {
 		}
 	}
 
-	async editData(req) {
+	async editData(req, editData) {
 
-		const rollbackOnFailure = req.body.rollbackOnFailure !== undefined ? 
-		(typeof req.body.rollbackOnFailure === 'string' ? JSON.parse(req.body.rollbackOnFailure) : req.body.rollbackOnFailure) : false;
-		
-		const collection = normalizeRequestedEdits(req.body);
 		let applyEditsResponse = {
 			addResults: [],
 			updateResults: [],
 			deleteResults: []
 		};
-	
+
+		const rollbackOnFailure = req.body.rollbackOnFailure !== undefined ? 
+		(typeof req.body.rollbackOnFailure === 'string' ? JSON.parse(req.body.rollbackOnFailure) : req.body.rollbackOnFailure) : false;
+
+		// only supports transactions on layer level requests by default
+		// custom modification of service-level applyEdits route required for service-level transaction
+
+		// check if more than one layer is in the edits body
+		if (JSON.parse(req.body.edits).length > 1 && rollbackOnFailure === true) {
+			throw new Error("Unuspported editing request. Customdata provider not configured for handling transactions for service-level applyEdits operation.");
+		}
+		
 		if (rollbackOnFailure === true) {
 			try {
 				
 				await startTransaction(this.db); // Start the transaction
-				// this.logger.info('Starting transaction.')
 
-				for (const layer of collection.edits) {
-					if (layer.id !== undefined && layer.id !== null) applyEditsResponse.id = layer.id;
-					if (layer.adds) applyEditsResponse.addResults = await insertRows(layer.adds, this.db, this.localParquetConfig, true);
-					if (layer.updates) applyEditsResponse.updateResults = await updateRows(layer.updates, this.db, this.localParquetConfig, true);
-					if (layer.deletes) applyEditsResponse.deleteResults = await deleteRows(layer.deletes, this.db, this.localParquetConfig, true);
-				}
-
-				const hasFailedEdit = hasSuccessFalse([applyEditsResponse]);
+				if (editData.adds) applyEditsResponse.addResults = await insertRows(editData.adds, this.db, this.localParquetConfig, true);
+				if (editData.updates) applyEditsResponse.updateResults = await updateRows(editData.updates, this.db, this.localParquetConfig, true);
+				if (editData.deletes) applyEditsResponse.deleteResults = await deleteRows(editData.deletes, this.db, this.localParquetConfig, true);
+				
+				const hasFailedEdit = checkForFailedEdit([applyEditsResponse]);
 				if (hasFailedEdit) {
 					await rollbackTransaction(this.db); // Rollback the transaction on error
 					throw new Error("An error occurred: There is at least one operation that failed.");
@@ -109,21 +111,13 @@ class Model {
 	
 		} else {
 			try {
-				for (const layer of collection.edits) {
-					if (layer.id !== undefined && layer.id !== null) applyEditsResponse.id = layer.id;
-					if (layer.adds) applyEditsResponse.addResults = await insertRows(layer.adds, this.db, this.localParquetConfig, false);
-					if (layer.updates) applyEditsResponse.updateResults = await updateRows(layer.updates, this.db, this.localParquetConfig, false);
-					if (layer.deletes) applyEditsResponse.deleteResults = await deleteRows(layer.deletes, this.db, this.localParquetConfig, false);
-				}
+				if (editData.adds) applyEditsResponse.addResults = await insertRows(editData.adds, this.db, this.localParquetConfig, false);
+				if (editData.updates) applyEditsResponse.updateResults = await updateRows(editData.updates, this.db, this.localParquetConfig, false);
+				if (editData.deletes) applyEditsResponse.deleteResults = await deleteRows(editData.deletes, this.db, this.localParquetConfig, false);
 				await syncWALandDB(this.db);
 			} catch (error) {
 				this.logger.debug('Failed to complete edits.')
 			}
-		}
-	
-	
-		if (collection.editLevel === 'service') {
-			return [applyEditsResponse];
 		}
 	
 		return applyEditsResponse;
@@ -144,9 +138,7 @@ class Model {
 
 			const { query: geoserviceParams } = req;
 			const { resultRecordCount, returnCountOnly } = geoserviceParams;
-			const config = localConfig["duckdbfs"];
-			const sourceId = req.params.id;
-			const sourceConfig = config.sources[sourceId];
+			const sourceConfig = localConfig["duckdbfs"].sources["localParquet"];
 			// only return back one row for metadata purposes
 			const isMetadataRequest =
 				(Object.keys(geoserviceParams).length == 1 &&
@@ -186,6 +178,13 @@ class Model {
 				if (rows.length == 0) {
 					return callback(null, geojson);
 				}
+
+				let exceededTransferLimit = false;
+
+				if (!returnCountOnly && rows.length > sourceConfig.maxRecordCountPerPage) {
+					exceededTransferLimit = true;
+					rows.pop();
+				}
 				if (returnCountOnly) {
 					geojson.count = Number(rows[0]["count(1)"]);
 				} else {
@@ -200,7 +199,9 @@ class Model {
         		geojson.metadata = {
 					...sourceConfig.properties,
 					maxRecordCount: sourceConfig.maxRecordCountPerPage,
+					exceededTransferLimit: exceededTransferLimit,
 					idField: sourceConfig.idField,
+					inputCrs: sourceConfig.dbWKID,
 					...(dbExtent && { extent: dbExtent }),
           			templates: [
 						{
@@ -520,7 +521,7 @@ async function commitTransaction(dbConn) {
 }
 
 
-function hasSuccessFalse(results) {
+function checkForFailedEdit(results) {
     for (const result of results) {
         for (const category of ['addResults', 'updateResults', 'deleteResults']) {
             for (const item of result[category]) {

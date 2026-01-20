@@ -1,8 +1,5 @@
 const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
-const codes = require('@esri/proj-codes');
-const proj4 = require('proj4');
-const SOURCE_CRS_WKID = 4326;
 
 async function performEdits(collection, editsBody) {
 
@@ -55,25 +52,11 @@ async function insertMongoDocs(collection, adds) {
 
 function transformToDatasourceJson(record) {
 
-  // check if the incoming SR is the same as the data SR; if differnt, convert and modify the record
-  const featureSR = record.geometry.spatialReference.wkid;
-  if (featureSR !== SOURCE_CRS_WKID) {
-
-    // look up the code
-    const crs = codes.lookup(featureSR);
-    // convert coordinates from what is currently in client to our data source crs
-    const convertedCoordinates = proj4(crs.wkt,`EPSG:${SOURCE_CRS_WKID}`, [record.geometry.x, record.geometry.y]);
-    // push the converted coordinates into the array 
-    record.geometry.x = convertedCoordinates[0];
-    record.geometry.y = convertedCoordinates[1];
-
-  }
-
   const transformedJson = new DataBaseObject(
-    record.attributes.fireId.toString(),
-    record.attributes.fireName.toString(),
-    record.attributes.fireType,
-    record.attributes.acres,
+    record.properties.fireId.toString(),
+    record.properties.fireName.toString(),
+    record.properties.fireType,
+    record.properties.acres,
     record.geometry.x,
     record.geometry.y
   );
@@ -173,47 +156,30 @@ function hashMongoOID(oids) {
 async function updateMongoDocs(collection, updates) {
   // Use map to create an array of promises for each update operation
   const updatePromises = updates.map(async record => {
-      let filter = { alternateID: record.attributes.alternateID };
+      let filter = { alternateID: record.properties.alternateID };
       let updateDoc = { $set: {} };
 
-      // Tack on any non OBJECTID updated attributes
-      for (let key in record.attributes) {
+      // Tack on any non OBJECTID updated properties
+      for (let key in record.properties) {
           if (key !== '_id') {
-              updateDoc.$set[key] = record.attributes[key];
+              updateDoc.$set[key] = record.properties[key];
           }
       }
 
       // If there is geometry, tack on the geometry updates
       if (record.geometry) {
 
-          let coordinatesArray = [];
-          
-          // check if the incorming SR is the same as the data SR
-          const featureSR = record.geometry.spatialReference.wkid;
+        let coordinatesArray = [];
+        coordinatesArray.push(record.geometry.x);
+        coordinatesArray.push(record.geometry.y);
 
-          if (featureSR !== SOURCE_CRS_WKID) {
+        if (!updateDoc.$set.location) {
+            updateDoc.$set.location = {}; // Initialize location object if not already present
+        }
 
-              // look up the code
-              const crs = codes.lookup(featureSR);
-              // convert coordinates from what is currently in client to our data source crs
-              const convertedCoordinates = proj4(crs.wkt,`EPSG:${SOURCE_CRS_WKID}`, [record.geometry.x, record.geometry.y]);
-              // push the converted coordinates into the array 
-              coordinatesArray.push(convertedCoordinates[0]);
-              coordinatesArray.push(convertedCoordinates[1]);
-
-          } else {
-              // SR is the same, so we just push on the incorming coordinates as is
-              coordinatesArray.push(record.geometry.x);
-              coordinatesArray.push(record.geometry.y);
-          }
-
-          if (!updateDoc.$set.location) {
-              updateDoc.$set.location = {}; // Initialize location object if not already present
-          }
-
-          // Build the final update query with coordinates
-          updateDoc.$set.location.type = 'Point';
-          updateDoc.$set.location.coordinates = coordinatesArray;
+        // Build the final update query with coordinates
+        updateDoc.$set.location.type = 'Point';
+        updateDoc.$set.location.coordinates = coordinatesArray;
       }
 
       // Perform the update
@@ -222,7 +188,7 @@ async function updateMongoDocs(collection, updates) {
 
       // Add the success or failure object to updates array based on the result
       if (result.modifiedCount === 1 || (result.matchedCount === 1 && result.modifiedCount === 0)) {
-          return new DatabaseSuccess(record.attributes.alternateID);
+          return new DatabaseSuccess(record.properties.alternateID);
       } else {
           return new DatabaseFailure(1019, "Internal error during object update.");
       }

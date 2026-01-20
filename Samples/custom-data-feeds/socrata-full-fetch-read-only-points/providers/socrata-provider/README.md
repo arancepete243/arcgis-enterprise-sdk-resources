@@ -1,8 +1,15 @@
 # Socrata provider
 
-This sample provider interfaces with any publicly available data on open
+This sample provider interfaces with any publicly available Socrata data on open
 data websites such as data.lacity.org and integrates it with ArcGIS
 Enterprise.
+
+## Supported ArcGIS Enterprise SDK Versions
+**12.0**
+
+Looking for 11.x versions of this sample?
+[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/socrata-full-fetch-read-only-points),
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/socrata-full-fetch-read-only-points)
 
 ## Set up the Provider
 
@@ -18,17 +25,34 @@ Enterprise.
 
 ## Configure Provider
 
-1.  In the **providers/socrata-provider/cdconfig.json** file, set the value of the
-    `properties.hosts` field to `true` and
-    `properties.disableIdParam` field to `false`.
+1.  In the **providers/socrata-provider/cdconfig.json** file, add the following
+    to the `serviceParameters` array.
+
+    ```json
+      {
+        "key": "domainURL",
+        "label": "Domain URL",
+        "description": "URL for host organization (e.g. data.lacity.org)."
+      },
+      {
+        "key": "UID",
+        "label": "Dataset UID",
+        "description": "UID for the dataset aka Dataset 4x4."
+      },
+      {
+        "key": "layerName",
+        "label": "Layer Name",
+        "description": "Enter a layer name relevant to the the dataset."
+      }
+    ```
 
 ## Test the Provider
 
 1.  Navigate to the **socrata-app** directory in a command prompt and
     run the `npm start` command to start the custom data app
-2.  In a web browser, navigate to
-    http://localhost:8080/socrata-provider/rest/services/data.lacity.org/fdwe-pgcu/FeatureServer/0/query
-    and verify that the Socrata provider is returning data points.
+2.  Send a GET request to
+    http://localhost:8080/socrata-provider/rest/services/FeatureServer/0/query with the header `x-esri-cdf-service-params` and value `{"domainURL": "data.lacity.org", "UID": "rygd-gm77", "layerName": "Active Businesses"}`.
+    Verify that the provider is returning data points.
 
 ## Build and Deploy the Custom Data Provider Package File
 
@@ -36,7 +60,7 @@ Enterprise.
 2.  Open a command prompt and navigate to the custom data app directory.
 3.  Run the `cdf export socrata-provider` command.
 4.  In a web browser, navigate to the ArcGIS Server Administrator
-    Directory and sign in as an administrator.
+    Directory and sign in as an administrator. Alternatively, you can use the [ArcGIS Server Manager](https://enterprise.arcgis.com/en/server/latest/develop/linux/administer-custom-data-providers-using-server-manager.htm) workflow.
 5.  Click **uploads \> upload**.
 6.  On the **Upload Item** page, click **Choose File** and select the
     **socrata-provider.cdpk** file. Optionally, provide a description in
@@ -89,8 +113,11 @@ Enterprise.
       "jsonProperties": {
         "customDataProviderInfo": {
           "dataProviderName": "socrata-provider",
-          "dataProviderHost": "data.lacity.org",
-          "dataProviderId": "fdwe-pgcu"
+          "serviceParameters": {
+            "domainURL": "data.lacity.org", 
+            "UID": "rygd-gm77", 
+            "layerName": "Active Businesses"
+          }
         }
       },
       "extensions": [],

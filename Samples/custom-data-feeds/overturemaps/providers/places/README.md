@@ -16,7 +16,7 @@ This sample focuses on the **“places”** theme. Overture's places data is fre
 | **Amazon S3**       | `s3://overturemaps-us-west-2/release/2025-02-19.0/theme=places/type=place/*` |
 | **Azure Blob Storage** | `https://overturemapswestus2.blob.core.windows.net/release/2025-02-19.0/theme=places/type=place/*` |
 
-**Note:** You can change the date "2025-02-19.0" in the above URLs to view data for a different month.
+**Note:** You can change the date "2025-02-19.0" in the above URLs to view data for a different month. See this URL for the latest: https://docs.overturemaps.org/guides/places/#data-access-and-retrieval
 
 Overture distributes its datasets in **GeoParquet**, a column-oriented spatial data format that is a backwards-compatible extension of **Apache Parquet**. Parquet (and GeoParquet) is optimized for "cloud-native" queries, allowing developers to efficiently fetch column "chunks" of cloud-hosted data using various tools. 
 

@@ -1,4 +1,4 @@
-const localConfig = require("config");
+const localConfig = require("./places-config.json");
 const duckdb = require("duckdb");
 
 const {
@@ -13,99 +13,55 @@ class Model {
     // This uses in memory instance of a DuckDB
     this.db = new duckdb.Database(":memory:");
 
-    //Comment out abolve line and uncomment line of code below if you want to use file based instance of DuckDB
-    // const dbPath = `${os.tmpdir()}/places.duckdb`;
-    // if (fs.existsSync(dbPath)) {
-    // 	// Delete the file
-    // 	try {
-    // 		fs.unlinkSync(dbPath); // Synchronous removal
-    // 		console.log("DuckDB database file deleted successfully.");
-    // 	} catch (error) {
-    // 		console.error("Error deleting DuckDB database file:", error);
-    // 	}
-    // }  else {
-    // 	console.log("Database file not found!");
-    // }
-    // this.db = new duckdb.Database(dbPath);
+    // Diagnostics if needed for determining what is installed and loaded
+    // this.db.all(`PRAGMA version;`, (err, rows) => {
+    //   if (!err) console.log("DuckDB version:", rows);
+    // });
+
+    // this.db.all(`SELECT * FROM duckdb_extensions();`, (err, rows) => {
+    //   if (!err) console.table(rows);
+    // });
+
+    // Install & load required extensions (idempotent)
+    this.db.all(`INSTALL httpfs; LOAD httpfs;`, (err) => {
+      if (err) console.error("httpfs install/load error:", err);
+      else console.log("httpfs ready.");
+    });
+
+    this.db.all(`INSTALL spatial; LOAD spatial;`, (err) => {
+      if (err) console.error("spatial install/load error:", err);
+      else console.log("spatial ready.");
+    });
 
     const s3Config = localConfig.places.sources.awss3;
-
-    //Only install if it's not already installed (prevents conflicts)
-    const httpfsQuery = `
-      SELECT COUNT(*) FROM duckdb_extensions() WHERE extension_name='httpfs' and installed=true;
-    `;
-    this.db.all(httpfsQuery, (err, res) => {
-      if (err) {
-        console.error("Error checking httpfs extension:", err);
-        return;
-      }
-      if (res[0]["COUNT(*)"] === 0) {
-        console.log("Installing httpfs Extension...");
-        this.db.all(`INSTALL httpfs; LOAD httpfs`, function (err) {
-          if (err) {
-            console.error("Error installing httpfs extension:", err);
-          } else {
-            console.log("httpfs extension installed.");
-          }
-        });
-      } else {
-        console.log("httpfs extension already installed.");
-      }
-    });
-
-    //Only install if it's not already installed (prevents conflicts)
-    const initQuery = `
-      SELECT COUNT(*) FROM duckdb_extensions() WHERE extension_name='spatial' and installed=true;
-    `;
-
-    this.db.all(initQuery, (err, res) => {
-      if (err) {
-        console.error("Error checking spatial extension:", err);
-        return;
-      }
-
-      if (res[0]["COUNT(*)"] === 0) {
-        console.log("Installing Spatial Extension...");
-        this.db.all(`INSTALL spatial;`, function (err) {
-          if (err) {
-            console.error("Error installing spatial extension:", err);
-          } else {
-            console.log("Spatial extension installed.");
-          }
-        });
-      } else {
-        console.log("Spatial extension already installed.");
-      }
-    });
-
-    var s3CreateClause = ``;
+    let s3CreateClause = ``;
     if (s3Config) {
-      var secretClause = `LOAD spatial;`;
-      s3CreateClause = `${secretClause}
-            CREATE TABLE ${s3Config.properties.name} AS 
-            SELECT
-              CAST(row_number() OVER () AS INTEGER) AS OBJECTID,
-              CAST(categories.primary AS VARCHAR(256)) AS category_main,
-              names.primary as name,
-              ROUND(confidence, 4) AS confidence,
-              websites[1] AS website,
-              socials[1] AS social,
-              emails[1] AS email,
-              phones[1] AS phone,
-              brand.names.primary AS brand,
-              addresses[1].freeform AS address,
-              addresses[1].postcode AS postcode,
-              brand.wikidata AS wikidata, 
-              CAST(socials AS JSON) as socials,   
-              geometry
-            FROM read_parquet('${s3Config.s3Url}', 
-              filename=true, hive_partitioning=1)
-            WHERE 
-              categories.primary = '${s3Config.category}' AND
-              bbox.xmin > ${s3Config.xmin} 
-                AND bbox.xmax < ${s3Config.xmax}
-              AND bbox.ymin > ${s3Config.ymin} 
-                AND bbox.ymax < ${s3Config.ymax};`;
+      s3CreateClause = `
+        DROP TABLE IF EXISTS ${s3Config.properties.name};
+        CREATE TABLE ${s3Config.properties.name} AS 
+        SELECT
+          CAST(row_number() OVER () AS INTEGER) AS OBJECTID,
+          CAST(categories.primary AS VARCHAR(256)) AS category_main,
+          names.primary as name,
+          ROUND(confidence, 4) AS confidence,
+          websites[1] AS website,
+          socials[1] AS social,
+          emails[1] AS email,
+          phones[1] AS phone,
+          brand.names.primary AS brand,
+          addresses[1].freeform AS address,
+          addresses[1].postcode AS postcode,
+          brand.wikidata AS wikidata, 
+          CAST(socials AS JSON) as socials,   
+          geometry
+        FROM read_parquet('${s3Config.s3Url}', 
+          filename=true, hive_partitioning=1)
+        WHERE 
+          categories.primary = '${s3Config.category}' AND
+          bbox.xmin > ${s3Config.xmin} 
+            AND bbox.xmax < ${s3Config.xmax}
+          AND bbox.ymin > ${s3Config.ymin} 
+            AND bbox.ymax < ${s3Config.ymax};`;
     }
 
     this.db.all(s3CreateClause, function (err, res) {
@@ -171,6 +127,11 @@ class Model {
         if (rows.length == 0) {
           return callback(null, geojson);
         }
+        let exceededTransferLimit = false;
+        if (!returnCountOnly && rows.length > sourceConfig.maxRecordCountPerPage) {
+          exceededTransferLimit = true;
+          rows.pop();
+        }
         if (returnCountOnly) {
           geojson.count = Number(rows[0]["count(1)"]);
         } else {
@@ -185,6 +146,7 @@ class Model {
         geojson.metadata = {
           ...sourceConfig.properties,
           maxRecordCount: sourceConfig.maxRecordCountPerPage,
+          exceededTransferLimit,
           idField: sourceConfig.idField,
           ...(dbExtent && { extent: dbExtent }),
         };

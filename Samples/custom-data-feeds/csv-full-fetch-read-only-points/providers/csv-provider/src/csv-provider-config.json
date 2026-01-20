@@ -1,0 +1,8 @@
+{
+    "dataDir":"data",
+    "delimiter": ",",
+    "metadata": {
+        "idField": "Id",
+        "dataCrs": 4326
+    }
+}

@@ -3,6 +3,13 @@
 This sample demonstrates how to create an [editing-enabled custom data provider](https://developers.arcgis.com/enterprise-sdk/guide/custom-data-feeds/editable-custom-data-provider/) that allows for creating, reading, updating, and deleting point features in a Google Sheet using a Node.js wrapper for the Google Sheets API.
 _Before you begin, you will need to setup your Google Sheet and obtain Google developer credentials if you don't already have them._
 
+## Supported ArcGIS Enterprise SDK Versions
+**12.0**
+
+Looking for 11.x versions of this sample?
+[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/google-sheets-editing-points),
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/google-sheets-editing-points)
+
 ## How the Provider Works
 
 ### Google Sheets Data
@@ -13,7 +20,7 @@ Follow these basic steps for setting up a Google Sheet and obtaining developer c
 
 2.  Add the provided [data](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/master/Samples/custom-data-feeds/google-sheets-editing-points/providers/google-sheets-provider) to the Google Sheet.
 
-3.  Rename the default sheet name from `Sheet1` to `Shoes`.
+3.  Rename the default sheet name from `Sheet1` to `Shoe_Stores`.
 
 4.  Take note of the Google Document ID because it will be needed below. The Document ID is a unique string that can be found in the URL when viewing your Google Sheet. In this sample URL,
     ```https://docs.google.com/spreadsheets/d/1P1xw1dHaXtX4EktOc8DuB7IP4Lrc4q9-pzYovqBtEfc/edit?gid=0#gid=0```, **1P1xw1dHaXtX4EktOc8DuB7IP4Lrc4q9-pzYovqBtEfc** is the Document ID.
@@ -44,21 +51,37 @@ Follow these basic steps for setting up a Google Sheet and obtaining developer c
     the **src** folder inside your **providers/google-sheets-provider/src**
     directory.
 4.  Navigate to the **providers/google-sheets-provider** directory in a
-    command prompt, and run the command `npm install config google-auth-library google-spreadsheet proj4 @esri/proj-codes` to install the needed modules. _`proj4` and `@esri/proj-codes` are tools that are used for coordinate system conversion._
+    command prompt, and run the command `npm install  google-auth-library google-spreadsheet` to install the needed modules.
 
 ## Configure the Provider
 
-1.  In the **providers/google-sheets-provider/cdconfig.json** file, set the value of the
-    `properties.hosts` field to `true` and
-    `properties.disableIdParam` field to `false`.
+1.  In the **providers/google-sheets-provider/cdconfig.json** file, add the following two objects to `serviceParameters`:
 
-2.  In the **providers/google-sheets-provider/config** directory, configure the Google Developer credentials in the **default.json** file.
+    ```json
+        "serviceParameters": [
+            {
+                "key": "docID",
+                "label": "Google Document ID",
+                "description": "Unique ID of the parent Google Document"
+            },
+            {
+                "key": "sheetName",
+                "label": "Google Sheet Name",
+                "description": "Name of Google Sheet in the Document"
+            }
+        ]
+    ```
+
+    Set `"editingEnabled": true`.
+
+2.  Create a file called **google-config.json** in the **providers/google-sheets-provider/src** directory, configure       
+    the Google Developer credentials in the file. These are in the JSON file you downloaded above.
 
 ````json
 {
     "google_sheets_provider": {
         "client_email": "<service account email>",
-        "private_key": "<your private key>"
+        "private_key": "<private key>"
     }
 }
 ````
@@ -67,9 +90,20 @@ Follow these basic steps for setting up a Google Sheet and obtaining developer c
 
 1.  Navigate to the **google-sheets-app** directory in a command prompt, and
     run the `npm start` command to start the custom data app.
-2.  In a web browser, navigate to
+2.  Send a GET request with the header `x-esri-cdf-service-params` and value `{"docID": "<doc-id>", "sheetName": 
+    "Shoe_Stores" }`
     http://localhost:8080/google-sheets-provider/rest/services/googleDocumentId/sheetName/FeatureServer/0/query,
     and verify that the Google Sheets provider is returning data points.
+3.  Send a properly formatted POST request
+    to: http://localhost:8080/google-sheets-provider/rest/services/FeatureServer/applyEdits with the header `x-esri-cdf-service-params` and value `{"docID": "<doc-id>", "sheetName": "Shoe_Stores" }`. Sample POST request:
+
+    ```curl
+        curl --location 'https://localhost:8080/google-sheets-provider/rest/services/FeatureServer/applyEdits' \
+        --header 'x-esri-cdf-service-params: {"docID": "1P1xw1dHaXtX4EktOc8DuB7IP4Lrc4q9-pzYovqBtEfc", "sheetName": "Shoe_Stores" }' \
+        --header 'Content-Type: application/x-www-form-urlencoded' \
+        --data-urlencode 'f=json' \
+        --data-urlencode 'edits=[{"id":0,"updates":[{"attributes":{"RowID":2,"StoreName":" UPDATE NAME"}}]}]'
+    ```
 
 ## Build and Deploy the Custom Data Provider Package File
 
@@ -130,8 +164,10 @@ Follow these basic steps for setting up a Google Sheet and obtaining developer c
         "jsonProperties": {
             "customDataProviderInfo": {
                 "dataProviderName": "google-sheets-provider",
-                "dataProviderHost": "<google document id>",
-                "dataProviderId": "<sheet name>"
+                "serviceParameters": {
+                    "docID": "<document id>", 
+                    "sheetName": "Shoe_Stores" 
+                }
             }
         },
         "extensions": [],
@@ -149,6 +185,7 @@ Follow these basic steps for setting up a Google Sheet and obtaining developer c
 
 ![](./images/cdf-google-sheets-service-json.png)
 
+Alternatively, you can create the feature service in ArcGIS Server Manager or in the Portal for ArcGIS Home Application. Use the service parameter values listed above when configuring the service.
 
 ## Consume Feature Service
 
@@ -158,4 +195,4 @@ previous section, use the appropriate URL (e.g.,
 You can use this URL to consume data from MongoDB in ArcGIS clients like
 ArcGIS Pro, ArcGIS Online, and ArcGIS Enterprise. 
 
-For this sample, we recommend using ArcGIS Pro for consuming the service due to the smaller number of service calls ArcGIS Pro makes compared to clients such as Map Viewer. If you are using a free Google Developer account, you may run into API rate limiting issues. Check the custom data feeds logs or the network traffic if you suspect you've hit your rate limit.
+For this sample, we recommend using ArcGIS Pro for consuming the service due to the smaller number of service calls ArcGIS Pro makes compared to clients such as Map Viewer or using an HTTP client that you have manual control over while developing. If you are using a free Google Developer account, you may run into API rate limiting issues. Check the custom data feeds logs or the network traffic if you suspect you've hit your rate limit.
