@@ -1,18 +1,26 @@
 # MongoDB provider
 
-This sample provider demonstrates a ["Pass-through"](https://developers.arcgis.com/enterprise-sdk/guide/custom-data-feeds/create-a-custom-data-feed-provider/) provider type that fetches 
+This sample provider demonstrates a ["Pass-through data loading pattern"](https://developers.arcgis.com/enterprise-sdk/guide/custom-data-feeds/create-a-custom-data-feed-provider/)  that fetches 
 wildfire location data from a MongoDB instance and exposes a feature service 
 that displays point data. This sample implements geometry filtering, pagination, and aggregation operations, including
 `returnCountOnly` and `returnExtentOnly`.
 _Before you begin, you will need to setup your own MongoDB instance and populate it 
 with the provided dataset_. The data are found in **data/fires.json**.
 
+## Supported ArcGIS Enterprise SDK Versions
+**12.0**
+
+Looking for 11.x versions of this sample?
+[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/mongodb-pt-read-only-points),
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/mongodb-pt-read-only-points)
+
+
 ## How the Provider Works
 
 This sample provider will read from a MongoDB instance that is populated
 with documents in the format below.
 
-````json
+```json
     {
       "_id": "eca3c261-6f3a-4313-b9e9-4a23f58d4e85",
       "fireId": "1",
@@ -28,7 +36,7 @@ with documents in the format below.
       },
       "alternateID": 1
     }   
-````
+```
 
 ## Set up the Provider
 
@@ -40,18 +48,28 @@ with documents in the format below.
     the **src** folder inside your **providers/mongodb-provider/src**
     directory.
 4.  Navigate to the **providers/mongodb-provider** directory in a
-    command prompt, and run the command `npm install @koopjs/geoservice-utils @synatic/noql config mongodb` to install the needed modules.
+    command prompt, and run the command `npm install @koopjs/geoservice-utils @synatic/noql mongodb` to install the needed modules.
 
 ## Configure the Provider
 
-1.  In the **providers/mongodb-provider/cdconfig.json** file, set the value of the
-    `properties.hosts` field to `true` and
-    `properties.disableIdParam` field to `false`.
+1.    In the **providers/mongodb-provider/cdconfig.json** file, add the following object to the `serviceParameters` array:
+```json
+        {
+            "key": "dataBaseName",
+            "label": "Database Name",
+            "description": "Name of the MongoDB database."
+        },
+        {
+            "key": "collectionName",
+            "label": "Collection Name",
+            "description": "Name of the MongoDB collection."
+        }
+```
 
-2.  In the **providers/mongodb-provider/config** directory, configure your MongoDB
-    connection in the **default.json** file. This sample assumes a locally running instance of MongoDB. It will look similar to this:
+2.  In the **providers/mongodb-provider/src/mongodb-provider-config.json** file, configure your MongoDB
+    connection details. This sample assumes a locally running instance of MongoDB. It will look similar to this:
 
-````json
+```json
 {
     "mongodb_provider": {
         "connectString": "mongodb://127.0.0.1:27017",
@@ -68,15 +86,15 @@ with documents in the format below.
         }
     }
 }
-````
+```
 
 ## Test the Provider
 
 1.  Navigate to the **mongodb-app** directory in a command prompt, and
     run the `npm start` command to start the custom data app.
-2.  In a web browser, navigate to
-    http://localhost:8080/mongodb-provider/rest/services/sample-data/fires/FeatureServer/0/query
-    and verify that the MongoDB provider is returning data points.
+2.  Send a GET request
+    to: http://localhost:8080/monogodb-provider/rest/services/FeatureServer/0/query with the header `x-esri-cdf-service-params` and value `{"dataBaseName": "sample-data", "collectionName": "fires"}`.
+    Verify that the provider is returning data points.
 
 ## Build and Deploy the Custom Data Provider Package File
 
@@ -137,8 +155,10 @@ with documents in the format below.
         "jsonProperties": {
             "customDataProviderInfo": {
                 "dataProviderName": "mongodb-provider",
-                "dataProviderHost": "sample-data",
-                "dataProviderId": "fires"
+                "serviceParameters": {
+                    "dataBaseName": "sample-data",
+                    "collectionName": "fires"
+                }
             }
         },
         "extensions": [],
@@ -150,10 +170,12 @@ with documents in the format below.
 
 3.  Click **Create.**
 
+Alternatively, you can create the feature service in ArcGIS Server Manager or in the Portal for ArcGIS Home Application. Use the service parameter values listed above when configuring the service.
+
 _Keep in mind that the provider code we used above assumes a database named
 **sample-data** and a collection named **fires**. If you used different names
-in your MongoDB instance, update the values of_ `dataProviderHost` _and_ 
-`dataProviderId` _accordingly._
+in your MongoDB instance, update the values of_ `dataBaseName` _and_ 
+`collectionName` _accordingly._
 
 ## Consume Feature Service
 

@@ -1,7 +1,7 @@
-const proj4 = require('proj4');
-const codes = require('@esri/proj-codes');
+// const proj4 = require('proj4');
+// const codes = require('@esri/proj-codes');
 
-async function updateRows(updates, dbConn, config, rollbackOnFailure) {
+async function updateRows(updates, dbConn, config) {
     const objectidFieldName = config.idField;
     const geometryColumnName = config.geomOutColumn;
     const tableName = config.properties.name;
@@ -19,13 +19,7 @@ async function updateRows(updates, dbConn, config, rollbackOnFailure) {
         // Validate and prepare geometry
         let geomValue;
         if (geometry && geometry.x !== undefined && geometry.y !== undefined) {
-            if (geometry.spatialReference && geometry.spatialReference.wkid !== '4326') {
-                const crs = codes.lookup(geometry.spatialReference.wkid);
-                const convertedCoordinates = proj4(crs.wkt, 'EPSG:4326', [geometry.x, geometry.y]);
-                geometry.x = convertedCoordinates[0];
-                geometry.y = convertedCoordinates[1];
-            }
-            geomValue = `SRID=4326;POINT(${geometry.x} ${geometry.y})`;
+            geomValue = `SRID=${config.dbWKID};POINT(${geometry.x} ${geometry.y})`;
             columns.push(`${geometryColumnName}`); // Include geometry column if geometry is present
         }
 

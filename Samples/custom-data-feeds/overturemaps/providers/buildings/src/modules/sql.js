@@ -61,7 +61,7 @@ function buildSqlQuery(
 
 	const limitClause =
 		fetchSize && !returnIdsOnly && !returnDistinctValues
-			? ` LIMIT ${fetchSize}`
+			? ` LIMIT ${Number(fetchSize) + 1}`
 			: "";
 
 	const offsetClause =

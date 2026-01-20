@@ -1,0 +1,18 @@
+{
+  "name": "oriented-imagery-provider",
+  "arcgisVersion": "12.0.0",
+  "parentServiceType": "FeatureServer",
+  "customdataRuntimeVersion": "1",
+  "type": "provider",
+  "editingEnabled": false,
+  "properties": {
+    "serviceParameters": [
+      {
+        "key": "fileName",
+        "label": "File Name",
+        "description": "Name of the GeoJSON file."
+      }
+    ]
+  },
+  "fileName": "oriented-imagery-provider.cdpk"
+}

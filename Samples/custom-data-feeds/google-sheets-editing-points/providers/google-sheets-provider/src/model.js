@@ -1,7 +1,7 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { JWT } = require('google-auth-library');
 const { editSheet } = require("./helpers/editSheet");
-const config = require('config');
+const config = require('./google-config.json');
 const inputCrs = 4326;
 
 class Model {
@@ -19,31 +19,28 @@ class Model {
    
   }
 
-  async editData(pathParams, body) {
+  async getMetadata() {
+    return {
+        idField: 'RowID',
+        inputCrs: 4326
+    }
+  }
 
-    const documentID = pathParams.host;
-    const sheetID = pathParams.id;
+  async editData(req, editData) {
 
-    // add logic for whether the request is at the layer-level or service-level
-    const extractedEdits = normalizeRequestedEdits(body);
-    
+    const documentID = req.params.docID;
+    const sheetName = req.params.sheetName;
+
     // initialize the spreadsheet and load the information for it
     const doc = new GoogleSpreadsheet(documentID, this.#serviceAccount);
     await doc.loadInfo();
     
     // get the sheet requested along with the sheet headers
-    const sheet = doc.sheetsByTitle[sheetID];
+    const sheet = doc.sheetsByTitle[sheetName];
 
     let applyEditsResponse = {};
 
-    applyEditsResponse = await editSheet(sheet, extractedEdits.edits);
-
-    // check if the response should be object(layer-level) or array(service-level)
-    if (extractedEdits.editLevel === 'service') {
-      applyEditsResponse.id = extractedEdits.layer;
-      return [applyEditsResponse];
-
-    }
+    applyEditsResponse = await editSheet(sheet, editData);
 
     return applyEditsResponse;
     
@@ -52,16 +49,15 @@ class Model {
   // this a simple getData function that follows a full-fetch pattern
   async getData(req) {
 
-    // use path params to get the Google Document and Sheets IDs
-    const documentID = req.params.host;
-    const sheetID = req.params.id;
+    const documentID = req.params.docID;
+    const sheetName = req.params.sheetName;
 
     // initialize the spreadsheet and load the information for it
     const doc = new GoogleSpreadsheet(documentID, this.#serviceAccount);
     await doc.loadInfo();
 
     // get the sheet requested along with the sheet headers
-    const sheet = doc.sheetsByTitle[sheetID];
+    const sheet = doc.sheetsByTitle[sheetName];
     await sheet.loadHeaderRow();
     const headers = sheet.headerValues;
 
@@ -192,32 +188,6 @@ class Model {
       console.log(error)
       return error
     } 
-  }
-}
-
-function normalizeRequestedEdits(body) {
-  let edits = {};
-  // if it service-level, just return the object
-  if(body.edits) { 
-  
-    return {
-      edits: body.edits[0],
-      editLevel : 'service',
-      layer: body.edits[0].id
-    }
-
-  // handle the layer level request
-  } else {
-    if(body.adds) edits.adds = body.adds;
-    if(body.updates) edits.updates = body.updates;
-    if(body.deletes) {
-      let deletesArray = [body.deletes];
-      edits.deletes = deletesArray;
-    }
-    return {
-      edits: edits,
-      editLevel: 'layer'
-    }
   }
 }
 

@@ -1,12 +1,23 @@
 {
   "name": "mongodb-provider",
-  "arcgisVersion": "11.4.0",
+  "arcgisVersion": "12.0.0",
   "parentServiceType": "FeatureServer",
   "customdataRuntimeVersion": "1",
   "type": "provider",
+  "editingEnabled": false,
   "properties": {
-    "hosts": true,
-    "disableIdParam": false
+    "serviceParameters": [
+      {
+        "key": "dataBaseName",
+        "label": "Database Name",
+        "description": "Name of the MongoDB database."
+      },
+      {
+        "key": "collectionName",
+        "label": "Collection Name",
+        "description": "Name of the MongoDB collection."
+      }
+    ]
   },
   "fileName": "mongodb-provider.cdpk"
 }
