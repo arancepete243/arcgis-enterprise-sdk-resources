@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="362aed5d-b081-4717-b20d-d8c6e7aad552" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="341c57YgwE9YHd5cFLx5n3CH1kk" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.ApplyWatermarkSOI [clean].executor": "Run",
+    "Maven.ApplyWatermarkSOI [install].executor": "Run",
+    "Maven.JavaApplyWatermarkImageServiceSOI [clean].executor": "Run",
+    "Maven.JavaApplyWatermarkImageServiceSOI [install].executor": "Run",
+    "Maven.LayerAccessSOI [clean].executor": "Run",
+    "Maven.LayerAccessSOI [install].executor": "Run",
+    "Maven.OperationAccessSOI [clean].executor": "Run",
+    "Maven.OperationAccessSOI [install].executor": "Run",
+    "Maven.SimpleSOI [clean].executor": "Run",
+    "Maven.SimpleSOI [install].executor": "Run",
+    "Maven.SpatialRestrictionSOI [clean].executor": "Run",
+    "Maven.SpatialRestrictionSOI [install].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/samples/Java/serverobjectinterceptors",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.145" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.145" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="362aed5d-b081-4717-b20d-d8c6e7aad552" name="Changes" comment="" />
+      <created>1760384333134</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760384333134</updated>
+      <workItem from="1760384334838" duration="1031000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
