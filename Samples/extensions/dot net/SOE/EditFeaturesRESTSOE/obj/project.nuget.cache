@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1EXk9upANUM=",
+  "dgSpecHash": "kCXRbgjRzXo=",
   "success": true,
-  "projectFilePath": "C:\\Program Files\\ArcGIS\\EnterpriseSDK\\Samples\\DotNet\\EditFeaturesRESTSOE\\NetEditFeaturesRESTSOE.csproj",
+  "projectFilePath": "C:\\Users\\fan11765\\Documents\\GIthub\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\EditFeaturesRESTSOE\\NetEditFeaturesRESTSOE.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

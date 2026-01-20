@@ -37,10 +37,9 @@ using System.Runtime.InteropServices;
 
 
 [assembly: ESRI.Server.SOESupport.AddInPackage("NetUNTracingRESTSOE", "12a0f14c-e2c2-4fd4-ac34-f3bb115bacbd",
-    Author = "dani8011",
-    Company = "",
+    Company = "ESRI",
     Date = "5/14/2020 10:43:35 AM",
     Description = "",
     TargetProduct = "Server",
-    TargetVersion = "12.0",
+    TargetVersion = "11.5",
     Version = "1.0")]

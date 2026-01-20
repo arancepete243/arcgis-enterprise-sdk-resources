@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub_repo\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\AccessUtilityNetworkDatasetProperties.csproj": {}
+    "C:\\Users\\fan11765\\Documents\\GIthub\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\AccessUtilityNetworkDatasetProperties.csproj": {}
   },
   "projects": {
-    "C:\\GitHub_repo\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\AccessUtilityNetworkDatasetProperties.csproj": {
+    "C:\\Users\\fan11765\\Documents\\GIthub\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\AccessUtilityNetworkDatasetProperties.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub_repo\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\AccessUtilityNetworkDatasetProperties.csproj",
+        "projectUniqueName": "C:\\Users\\fan11765\\Documents\\GIthub\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\AccessUtilityNetworkDatasetProperties.csproj",
         "projectName": "AccessUtilityNetworkDatasetProperties",
-        "projectPath": "C:\\GitHub_repo\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\AccessUtilityNetworkDatasetProperties.csproj",
+        "projectPath": "C:\\Users\\fan11765\\Documents\\GIthub\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\AccessUtilityNetworkDatasetProperties.csproj",
         "packagesPath": "C:\\Users\\fan11765\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub_repo\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\obj\\",
+        "outputPath": "C:\\Users\\fan11765\\Documents\\GIthub\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\AccessUtilityNetworkDatasetSOE\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -65,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

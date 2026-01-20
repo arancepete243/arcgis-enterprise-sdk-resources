@@ -10,24 +10,25 @@
 // See the use restrictions at <your Enterprise SDK install location>/userestrictions.txt.
 // 
 
-using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.esriSystem;
-using ESRI.ArcGIS.Geodatabase;
-using ESRI.ArcGIS.Geometry;
-using ESRI.ArcGIS.Server;
-using ESRI.Server.SOESupport;
-using ESRI.Server.SOESupport.SOI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+
+using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.Server;
+using ESRI.ArcGIS.Geometry;
+using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Carto;
+using ESRI.Server.SOESupport;
+using ESRI.Server.SOESupport.SOI;
+using System.Text.Json.Nodes;
 using JsonObject = System.Text.Json.Nodes.JsonObject;
 
 namespace NetLayerAccessSOI
@@ -59,10 +60,8 @@ namespace NetLayerAccessSOI
          * is read from the permission.json file. 
          *  
          */
-        private String _permissionFilePath = null; //default path
+        private String _permissionFilePath = "C:\\arcgisserver\\permission.json"; //default path
 
-        private String serverDir = null;
-        private string permissionfileURL = "https://esriresources.s3.amazonaws.com/sdkresources/permission.json";
         private String _wsdlFilePath = "C:\\Program Files\\ArcGIS\\Server\\framework\\runtime\\ArcGIS\\Resources\\XmlSchema\\MapServer.wsdl"; //default path
 
 
@@ -114,9 +113,9 @@ namespace NetLayerAccessSOI
                                             } },
                 { RestHandlerOpCode.LayerGenerateRenderer, new RestFilter
                                             {
-                                               PreFilter = PreFilterLayerQuery,
-                                              PostFilter = null
-                                            }},
+                                                PreFilter = PreFilterLayerQuery,
+                                                PostFilter = null
+                                            } },
                 { RestHandlerOpCode.LayerQuery, new RestFilter
                                             {
                                                 PreFilter = PreFilterLayerQuery,
@@ -138,14 +137,12 @@ namespace NetLayerAccessSOI
             };
         }
 
-     
         /// <summary>
         /// 
         /// </summary>
         /// <param name="pSOH"></param>
         public void Init(IServerObjectHelper pSOH)
         {
-            System.Diagnostics.Debugger.Launch();
             try
             {
                 _soHelper = pSOH;
@@ -155,19 +152,12 @@ namespace NetLayerAccessSOI
                 _restServiceSOI = new RestSOIHelper(_soHelper);
                 _SoapSOIHelper = new SoapSOIHelper(_soHelper, _wsdlFilePath);
 
-                //MapServer mapServer = (MapServer)_soHelper.ServerObject;
-                //String physicalOutputDir = mapServer.PhysicalOutputDirectory;
-                //int index = physicalOutputDir.IndexOf(System.IO.Path.DirectorySeparatorChar + "directories" + System.IO.Path.DirectorySeparatorChar + "arcgisoutput");
-                //serverDir = physicalOutputDir.Substring(0, index);
-                //_permissionFilePath = serverDir + System.IO.Path.DirectorySeparatorChar + "permission.json";
-
-
-                if (RemoteFileExists(permissionfileURL))
+                if (File.Exists(_permissionFilePath))
                 {
                     //TODO REMOVE
                     _serverLog.LogMessage(ServerLogger.msgType.infoStandard, _soiName + ".init()", 200, "Reading permissions from " + _permissionFilePath);
 
-                    _servicePermissionMap = ReadPermissionFile(permissionfileURL);
+                    _servicePermissionMap = ReadPermissionFile(_permissionFilePath);
 
                     //TODO REMOVE
                     _serverLog.LogMessage(ServerLogger.msgType.infoStandard, _soiName + ".init()", 200, "Total permission entries: " + _servicePermissionMap.Count());
@@ -258,19 +248,8 @@ namespace NetLayerAccessSOI
 
                     string newResponseProperties;
                     var newResponse = restFilterOp.PostFilter(restInput, response, responseProperties, out newResponseProperties);
+                    responseProperties = newResponseProperties;
 
-                    // If post-filter returned null, fallback to original response to avoid null bytes error.
-                    if (newResponse == null)
-                    {
-                        // Preserve responseProperties: prefer newResponseProperties when provided, otherwise keep original.
-                        responseProperties = !string.IsNullOrEmpty(newResponseProperties) ? newResponseProperties : responseProperties;
-                        return response;
-                    }
-
-                    // If newResponseProperties is null or empty, keep original responseProperties.
-                    responseProperties = !string.IsNullOrEmpty(newResponseProperties) ? newResponseProperties : responseProperties;
-
-                    // Safe to call GetString since newResponse is not null.
                     return newResponse;
                 }
                 finally
@@ -356,9 +335,6 @@ namespace NetLayerAccessSOI
             return RestHandlerOpCode.DefaultNoOp;
         }
 
-
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -392,7 +368,6 @@ namespace NetLayerAccessSOI
                 };
 
                 var opCode = GetHandlerOpCode(restInput.ResourceName, restInput.OperationName);
-
                 return FilterRESTRequest(opCode, restInput, out responseProperties);
             }
             catch (Exception e)
@@ -486,9 +461,7 @@ namespace NetLayerAccessSOI
             var operationInputJDOM = JsonNode.Parse(restInput.OperationInput).AsObject();
             var resName = restInput.ResourceName.TrimStart('/');
             var rnameParts = resName.Split('/');
-            //var requestedLayerId = rnameParts[1].Trim();
-            var requestedLayerId = rnameParts.Length > 1 ? rnameParts[1].Trim() : "";
-
+            var requestedLayerId = rnameParts[1];
 
             if (!_authorizedLayerSet.Contains(requestedLayerId))
             {
@@ -1294,51 +1267,69 @@ namespace NetLayerAccessSOI
         /// </summary>
         /// <param name="fileName">path and name of the file to read permissions from</param>
         /// <returns></returns>
-        private Dictionary<String, String> ReadPermissionFile(String fileUrl)
+        private Dictionary<String, String> ReadPermissionFile(String fileName)
         {
             // read the permissions file
             Dictionary<String, String> permissionMap = new Dictionary<String, String>();
             try
             {
 
-                using var httpClient = new HttpClient();
-                var content = httpClient.GetStringAsync(fileUrl).GetAwaiter().GetResult();
-
-                if (string.IsNullOrWhiteSpace(content))
-                {
-                    _serverLog.LogMessage(ServerLogger.msgType.error, _soiName + ".ReadPermissionFileFromUrl()", 500, $"Failed to read permission file from {fileUrl}");
-                    throw new IOException($"Failed to read permission file from {fileUrl}");
-                }
-
-                var json = JsonNode.Parse(content).AsObject();
-                if (!json.TryGetPropertyValue("permissions", out var permissionsNode) || permissionsNode == null)
+                if (!File.Exists(fileName))
                     return permissionMap;
 
-                var permissionsArray = permissionsNode.AsArray();
-                foreach (var permsObj in permissionsArray)
-                {
-                    var permsJO = permsObj.AsObject();
-                    if (permsJO == null) continue;
+                String jsonStr = File.ReadAllText(fileName);
 
-                    var fqsn = permsJO["fqsn"]?.ToString() ?? string.Empty;
-                    if (!permsJO.TryGetPropertyValue("permission", out var permNode) || permNode == null)
+
+                var json = JsonNode.Parse(jsonStr).AsObject();
+                JsonNode jsonNode = null;
+                JsonArray permissions = null;
+                // create a map of permissions
+                // read the permissions array
+
+                if (!json.TryGetPropertyValue("permissions", out jsonNode) || jsonNode == null)
+                    return permissionMap;
+                permissions = jsonNode.AsArray();
+
+                // add to map
+                foreach (var permsObj in permissions)
+                {
+                    JsonObject permsJO = permsObj.AsObject();
+                    if (null == permsJO) continue;
+
+                    // get the fqsn or service name
+                    String fqsn = string.Empty;
+                    if (permsJO.TryGetPropertyValue("fqsn", out jsonNode))
+                    {
+                        fqsn = jsonNode.ToString();
+                    }
+                    // read the permission for that service
+                    JsonArray permArray = null;
+                    if (!permsJO.TryGetPropertyValue("permission", out jsonNode) || jsonNode == null)
                         continue;
 
-                    var permArray = permNode.AsArray();
+                    permArray = jsonNode.AsArray();
+
                     foreach (var permObj in permArray)
                     {
                         var permJO = permObj.AsObject();
-                        if (permJO == null) continue;
+                        String role = string.Empty;
+                        if (!permJO.TryGetPropertyValue("role", out jsonNode))
+                            continue;
+                        role = jsonNode.ToString();
 
-                        var role = permJO["role"]?.ToString() ?? string.Empty;
-                        var authorizedLayers = permJO["authorizedLayers"]?.ToString() ?? string.Empty;
-                        permissionMap[$"{fqsn}.{role}"] = authorizedLayers;
+                        String authorizedLayers = string.Empty;
+                        if (permJO.TryGetPropertyValue("authorizedLayers", out jsonNode))
+                        {
+                            //may be empty or null
+                            authorizedLayers = jsonNode.ToString();
+                        }
+                        permissionMap.Add(fqsn + "." + role, authorizedLayers);
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception ignore)
             {
-                _serverLog.LogMessage(ServerLogger.msgType.error, _soiName + ".ReadPermissionFileFromUrl()", 500, $"Exception: {ex.Message}");
+                //TODO error handling
             }
             return permissionMap;
         }
@@ -1355,10 +1346,8 @@ namespace NetLayerAccessSOI
             HashSet<String> userRoleSet = ServerUtilities.GetGroupInfo(ServerUtilities.GetServerEnvironment());
 
             if (null == userRoleSet)
-            {
-                _serverLog.LogMessage(ServerLogger.msgType.infoStandard, _soiName + ".GetAuthorizedLayers()", 200, "No user roles returned");
                 return authorizedLayerSet;
-            }
+
             /*
             * Generate a set of authorized layers for the user
             */
@@ -1373,12 +1362,5 @@ namespace NetLayerAccessSOI
             return new HashSet<string>(authorizedLayerList);
         }
         #endregion
-
-        bool RemoteFileExists(string url)
-        {
-            using var client = new HttpClient();
-            var response = client.Send(new HttpRequestMessage(HttpMethod.Head, url));
-            return response.IsSuccessStatusCode;
-        }
     }
 }
