@@ -17,7 +17,7 @@ Deploying the SOI from the .soe file (`../SpatialRestrictionSOI/target/SpatialRe
 
 ## Sample data
 
-This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOI.
+This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOI.
 
 ## Instructions
 
@@ -29,11 +29,11 @@ This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as
 4. Click ***Choose File*** and choose the ***SpatialRestrictionSOI*** file (`../SpatialRestrictionSOI/target/SpatialRestrictionSOI.soe`).
 5. Click ***Add***.
 
-   ![](../../../../images/javasp/JavaSpatialRestrictSOI1.png "Spatial Restriction SOI")
+   ![](../../../../../images/javasp/JavaSpatialRestrictSOI1.png "Spatial Restriction SOI")
 
 ### Enable the Clipping SOI on a map service
 
-1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../ReadMe.md#1-usa-service)
+1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#1-usa-service)
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select USA map service and select ***Capabilities***.
 3. In the ***Interceptors*** section, select ***Java Clipping SOI*** in the ***Available Interceptors*** box and click the right arrow button to move it to ***Enabled Interceptors***.
 4. Click the ***Save and Restart*** button to restart the service.
@@ -51,7 +51,7 @@ This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as
    
    The exported image shows the map in a circle area. Alternatively, try to view this map service in ***ArcGIS JavaScript*** or ***ArcGIS Online Map Viewer*** and you should see similar result:
 
-   ![](../../../../images/netsp/NetSpatialRestrictSOI2.png "Spatial Restriction SOI")
+   ![](../../../../../images/netsp/NetSpatialRestrictSOI2.png "Spatial Restriction SOI")
 
 3. You can play around the ***Export Map***, ***Identify*** and ***Find*** operations to observe the SOI's effects. 
 
@@ -75,6 +75,6 @@ This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as
    
    The exported image shows the map in a limited area. Alternatively, try to view this map service in ***ArcGIS JavaScript*** or ***ArcGIS Online Map Viewer*** and you should see similar result:
 
-   ![](../../../../images/netsp/NetSpatialRestrictSOI3.png "Spatial Restriction SOI")
+   ![](../../../../../images/netsp/NetSpatialRestrictSOI3.png "Spatial Restriction SOI")
 
 3. You can play around the ***Export Map***, ***Identify*** and ***Find*** operations to observe the SOI's effects.

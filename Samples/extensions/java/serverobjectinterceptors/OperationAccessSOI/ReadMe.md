@@ -17,13 +17,13 @@ Deploying the SOI from the .soe file (`../OperationAccessSOI/target/OperationAcc
 
 ## Sample data
 
-Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOI.
+Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOI.
 
 ## Instructions
 
 ### Set up testing environment
 
-1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../ReadMe.md#1-usa-service).
+1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#1-usa-service).
 2. Grant proper user access to the USA map service.
 
 #### Option 1: For a stand-alone ArcGIS Server
@@ -34,17 +34,17 @@ This environment is configured with [users and roles from the built-in store](ht
 
    To check role members, click the ***edit*** button next to a role.
 
-   ![](../../../../images/netsp/NetOp1.png "Net Operation Access SOI Sample")
+   ![](../../../../../images/netsp/NetOp1.png "Net Operation Access SOI Sample")
 
    The ***Edit Role*** wizard will appear and show all the users assigned to this role.
 
-   ![](../../../../images/netsp/NetOp2.png "Net Operation Access SOI Sample")
+   ![](../../../../../images/netsp/NetOp2.png "Net Operation Access SOI Sample")
 
    You can also create users and roles under the ***Users*** and ***Roles*** tabs.
 3. Browse to ***ArcGIS Server Manager*** > ***Services*** tab.
 4. Right-click the ***Sharing Properties*** button next to the map service to secure it for logged-in users.
 
-   ![](../../../../images/netsp/NetLayer3.png "Net Operation Access SOI Sample")
+   ![](../../../../../images/netsp/NetLayer3.png "Net Operation Access SOI Sample")
 5. You can either choose ***Allow access to all users who are logged in*** or choose a role by clicking the ***Add*** button under ***Action*** so that the role is listed under ***Allowed roles***.
 6. Similarly, you can also create another role ***platinum123***, assign users to it, and share the map service with this role.
 
