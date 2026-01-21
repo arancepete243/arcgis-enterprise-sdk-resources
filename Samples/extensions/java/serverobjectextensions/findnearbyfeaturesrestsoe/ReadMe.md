@@ -16,7 +16,7 @@ Deploying the SOE from the .soe file (`../findnearbyfeaturesrestsoe/target/findn
 
 
 ## Sample data
-This sample uses the [Veg map service](../../../ReadMe.md#2-veg-service) as the sample service to test with the SOE.
+This sample uses the [Veg map service](../../../../ReadMe.md#2-veg-service) as the sample service to test with the SOE.
 
 
 ## Instructions
@@ -31,7 +31,7 @@ This sample uses the [Veg map service](../../../ReadMe.md#2-veg-service) as the 
 
 ### Enable the SOE on a map service
 
-1. Make sure you have published the Veg map service using ArcGIS Pro. If not, refer to [Veg map service](../../../ReadMe.md#2-veg-service)
+1. Make sure you have published the Veg map service using ArcGIS Pro. If not, refer to [Veg map service](../../../../ReadMe.md#2-veg-service)
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select Veg map service and select ***Capabilities***.
 3. In the list of available capabilities, find ***Java Find Nearby Features REST SOE*** and check the box to enable it.
 4. Click the ***Save and Restart*** button to restart the service.
@@ -47,12 +47,12 @@ This sample uses the [Veg map service](../../../ReadMe.md#2-veg-service) as the 
    http://<serverdomain>/<webadaptorname>/rest/services/Veg/MapServer/exts/JavaFindNearbyFeaturesRESTSOE
    ```
    
-   ![](../../../../images/javasp/JavaFindREST1.png "Java Find Nearby Features REST SOE Sample")
+   ![](../../../../../images/javasp/JavaFindREST1.png "Java Find Nearby Features REST SOE Sample")
 
 3. Click the ***featureLayers*** child resource to test the child resource response.    
 4. Navigate back to the SOE's root page and click ***findNearbyFeatures*** in ***Supported Operations***. 
 
    Type `0` in the ***layerId*** input box, `{x:544000,y:4900000, spatialReference:{wkid:26712}}` in the ***location*** input box, and `50000` in the ***distance*** box. This indicates the spatial query is performed within 5000 meters of the location point (x:544000, y:4900000) for the first layer. Click the ***findNearFeatures*** button. You will see the JSON of 38 features returned.
 
-   ![](../../../../images/javasp/JavaFindREST2.png "Java Find Nearby Features REST SOE Sample")
+   ![](../../../../../images/javasp/JavaFindREST2.png "Java Find Nearby Features REST SOE Sample")
    

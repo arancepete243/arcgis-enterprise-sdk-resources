@@ -6,7 +6,7 @@ order: 4
 
 This sample illustrates how to develop a REST server object extension (SOE) with a spatial query operation. The spatial query operation returns all the features of a map service layer that fall within the user-defined search distance of a location point. The location point and the search distance are the input parameters of the REST operation, which generate a search buffered area. This SOE will return the features that are within the buffered area and also a summary of the total areas by those features' vegetation types. At last, a JavaScript client application is provided with this sample to demonstrate how to consume this SOE's spatial query operation.
 
-![](../../../../images/netsp/NetSpatialQuery0.png "Net Spatial Query Sample")
+![](../../../../../images/netsp/NetSpatialQuery0.png "Net Spatial Query Sample")
 
 ## Features
 
@@ -38,7 +38,7 @@ This sample uses the [Veg map service](../../../ReadMe.md#2-veg-service) as the 
 3. In the list of available capabilities, find ***.Net Spatial Query REST SOE*** and check the box to enable it.
 4. Keep the SOE selected to check the SOE's properties. Leave them as their default values.
 
-   ![](../../../../images/netsp/NetSpatialQuery1.png "Net Spatial Query Sample")
+   ![](../../../../../images/netsp/NetSpatialQuery1.png "Net Spatial Query Sample")
 5. Click the ***Save and Restart*** button to restart the service.
 
 ### Test the SOE in the ArcGIS Server Services Directory
@@ -54,7 +54,7 @@ This sample uses the [Veg map service](../../../ReadMe.md#2-veg-service) as the 
 4. In distance box, paste the following test: `5000`
 5. Click the ***SpatialQuery(Get)*** button. You should be able to see a valid result:
 
-   ![](../../../../images/netsp/NetSpatialQuery2.png "Net Spatial Query Sample")
+   ![](../../../../../images/netsp/NetSpatialQuery2.png "Net Spatial Query Sample")
    
 ### Test the SOE in a JavaScript REST application
 1. Open the [SpatialQueryClient.html](SpatialQueryRESTClient.html) file in an editor.
@@ -63,4 +63,4 @@ This sample uses the [Veg map service](../../../ReadMe.md#2-veg-service) as the 
 4. Open this application on a browser and click on the map.
 5. You should be able to see the clipped features on the map and a summary table showing the vegetation type and total area as the following:
 
-   ![](../../../../images/netsp/NetSpatialQuery0.png "Net Spatial Query Sample")
+   ![](../../../../../images/netsp/NetSpatialQuery0.png "Net Spatial Query Sample")

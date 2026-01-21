@@ -33,7 +33,7 @@ Any Image service published from ArcGIS Pro or Admin rest end and Geo-processing
 1. Make sure you have published the Image service using ArcGIS Pro or Admin rest end and geoprocessing tool. 
 2. Log in to ArcGIS portal home application and select the Image Service.Click the ***Settings*** tab. Select Extensions and expand it and find the ***SOI*** and expand it.
 3. In the ***SOI*** section, select ***JavaApplyWatermarkImageServiceSOI*** in the ***Available Interceptors*** box and enable it ***Enabled Interceptors***.
-   ![](../../../../images/javasp/javawatermarkimageSOI1.png "Java Apply Watermark Image Service SOI")
+   ![](../../../../../images/javasp/javawatermarkimageSOI1.png "Java Apply Watermark Image Service SOI")
 4. Click the ***Save and Restart*** button to restart the service.
 
 
@@ -49,4 +49,4 @@ Any Image service published from ArcGIS Pro or Admin rest end and Geo-processing
    http://<serverdomain>/<webadaptorname>/rest/services/Name/ImageServer/export?bbox=-178.85719640187426,13.522152002873426,-56.484036397641795,81.72479317856566
    ```
 3. The watermark ***(c) ESRI Inc.*** will appear as background.
-![](../../../../images/javasp/javawatermarkimageSOI2.png "Java Apply Watermark Image Service SOI")
+![](../../../../../images/javasp/javawatermarkimageSOI2.png "Java Apply Watermark Image Service SOI")

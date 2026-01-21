@@ -56,7 +56,7 @@ Deploying the SOE from the .soe file (`..\bin\Release\NetFindNearFeaturesSoapSOE
       ```
    4. Click ***Update Web Reference***.
    
-      ![](../../../../images/netsp/NetFindSoap1.png "Net Find Near SOAP Sample")
+      ![](../../../../../images/netsp/NetFindSoap1.png "Net Find Near SOAP Sample")
 3. Update the service reference and URL in the code behind (Form1.cs).
    1. Open Form1.cs.
    2. Find the following two lines of code in each click event for the buttons:

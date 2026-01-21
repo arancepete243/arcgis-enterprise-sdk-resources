@@ -19,7 +19,7 @@ Deploying the SOE from the .soe file (`..\EditAnnotationRESTSOE\bin\Debug\EditAn
 
 
 ## Sample data
-This instruction uses the [Annotation Map Service](../../../ReadMe.md) as the sample service to test with the SOE. Make sure its data source is from an Enterprise GeoDatabase and registered with ArcGIS Enterprise.
+This instruction uses the [Annotation Map Service](../../../../ReadMe.md) as the sample service to test with the SOE. Make sure its data source is from an Enterprise GeoDatabase and registered with ArcGIS Enterprise.
 
 
 ## Instructions
@@ -34,12 +34,12 @@ This instruction uses the [Annotation Map Service](../../../ReadMe.md) as the sa
 
 ### Enable the SOE on a map service
 
-1. Make sure you have published the Annotation map service whose data source is from an editable workspace using ArcGIS Pro. If not, refer to [Annotation Map Service](../../../ReadMe.md).
+1. Make sure you have published the Annotation map service whose data source is from an editable workspace using ArcGIS Pro. If not, refer to [Annotation Map Service](../../../../ReadMe.md).
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select Annotation map service and select ***Capabilities***.
 3. In the list of available capabilities, find ***.Net Edit Annotation REST SOE*** and check the box to enable it.
 4. Under ***Properties*** section, make sure that ***layerId*** is set to the layer you would like to edit. In this sample, we can set it to `0`, which is the citiesAnno layer.
 
-![](../../../../images/netsp/NetAnnotationEdit.png "Edit features SOE sample")
+![](../../../../../images/netsp/NetAnnotationEdit.png "Edit features SOE sample")
 
 5. Click the ***Save and Restart*** button to restart the service.
 
@@ -54,7 +54,7 @@ This instruction uses the [Annotation Map Service](../../../ReadMe.md) as the sa
    http://<serverdomain>/<webadaptorname>/rest/services/annotation/MapServer/exts/EditAnnotationRESTSOE
    ```
    
-   ![](../../../../images/netsp/NetEdit2.png "Edit annotation features SOE sample")
+   ![](../../../../../images/netsp/NetEdit2.png "Edit annotation features SOE sample")
 
 3. Click ***addNewFeature*** in ***Supported Operations***. 
 
@@ -87,7 +87,7 @@ This instruction uses the [Annotation Map Service](../../../ReadMe.md) as the sa
    ```
    Click the ***addNewFeature*** button. You will receive a response indicating this request succeeded and returning the ID of the newly-added annotation feature returned.
    
-   ![](../../../../images/netsp/NetAnnotationAddNewFeature.png "Edit features SOE sample")
+   ![](../../../../../images/netsp/NetAnnotationAddNewFeature.png "Edit features SOE sample")
 
 4. Perform the following ***Query*** operation to confirm the feature is added:
 
@@ -100,7 +100,7 @@ This instruction uses the [Annotation Map Service](../../../ReadMe.md) as the sa
 5. Click ***editFeature*** in ***Supported Operations*** on the SOE's root page. 
 
    Type the same feature ID in the ***featureId*** input box and the following updated feature JSON in the ***featureJSON*** input box. 
-   ![](../../../../images/netsp/NetAnnotationEditOperation.png "Edit features SOE sample")
+   ![](../../../../../images/netsp/NetAnnotationEditOperation.png "Edit features SOE sample")
    
    ``` JSON
    {
@@ -128,6 +128,6 @@ This instruction uses the [Annotation Map Service](../../../ReadMe.md) as the sa
    ```
    Click the ***editFeature*** button. You will receive a response indicating this request succeeded and returning the ID of the annotation feature that has been updated. You can also repeat the last step to confirm this updated result by performing a ***Query*** operation.
    
-   ![](../../../../images/netsp/NetAnnotationEditOperation.png "Edit features SOE sample")   
+   ![](../../../../../images/netsp/NetAnnotationEditOperation.png "Edit features SOE sample")   
 4. Perform the following ***Query*** operation to confirm the feature is added:
-   ![](../../../../images/netsp/queryAnnotation.png "query result")
+   ![](../../../../../images/netsp/queryAnnotation.png "query result")

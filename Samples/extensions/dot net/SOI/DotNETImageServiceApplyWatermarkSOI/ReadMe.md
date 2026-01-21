@@ -32,7 +32,7 @@ Any Image service published from ArcGIS Pro or Admin rest end and Geo-processing
 1. Make sure you have published the Image service using ArcGIS Pro or Admin rest end and geoprocessing tool. 
 2. Log in to ArcGIS portal home application and select the Image Servive.Click the ***Settings*** tab. Select Extensions and expand it and find the ***SOI*** and expand it.
 3. In the ***SOI*** section, select ***DotNetImageServiceApplyWatermarkSOI_ent*** in the ***Available Interceptors*** box and enable it ***Enabled Interceptors***.
-   ![](../../../../images/netsp/ImageServiceWaterMarkSOI1.png "Image Service Apply Watermark SOI")
+   ![](../../../../../images/netsp/ImageServiceWaterMarkSOI1.png "Image Service Apply Watermark SOI")
 4. Click the ***Save and Restart*** button to restart the service.
 
 ### Test the SOI
@@ -47,6 +47,6 @@ Any Image service published from ArcGIS Pro or Admin rest end and Geo-processing
    ```
 3. The watermark ***(c) ESRI Inc.*** will appear at the bottom left corner of the exported image.
 
-   ![](../../../../images/netsp/ImageServiceWaterMarkSOI2.png "Image Service Apply Watermark SOI")
+   ![](../../../../../images/netsp/ImageServiceWaterMarkSOI2.png "Image Service Apply Watermark SOI")
 
 

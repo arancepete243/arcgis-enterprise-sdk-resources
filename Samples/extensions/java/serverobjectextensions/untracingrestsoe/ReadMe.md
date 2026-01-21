@@ -52,7 +52,7 @@ This sample requires the [Electric Utility Network Foundation](https://solutions
    http://<serverdomain>/<webadaptorname>/rest/services/<servicename>/MapServer/exts/JavaUNTracingRESTSOE
    ```
    
-   ![](../../../../images/javasp/JavaUNTracing1.png "UN Tracing SOE sample")
+   ![](../../../../../images/javasp/JavaUNTracing1.png "UN Tracing SOE sample")
    
    Make sure that the ***hasValidNetworkTopology*** property returns 'true'. This indicates that the network topology is enabled. Otherwise, the Utility Network owner will need to enable the network topology before using this SOE. 
 

@@ -6,7 +6,7 @@ order: 3
 
 This sample illustrates how to develop a REST server object extension (SOE) with properties and a custom property page for ArcGIS Server Manager. These properties appear in ArcGIS Server Manager and can be changed by the server administrator.
 
-![](../../../../images/netsp/NetProps0.png "Net Properties Sample")
+![](../../../../../images/netsp/NetProps0.png "Net Properties Sample")
 
 <!--Creating a custom property page requires the knowledge of JavaScript and web forms development using HTML. If you are not familiar with JavaScript, you can start from the default properties (`HasManagerPropertiesConfigurationPane = false`) and explore whether the default properties will meet your needs. They appear as textboxes in server manager, whereas the custom property page allows more widgets, such as checkbox, drop-down select box, etc., which provides a better user interface for managing those properties.-->
 
@@ -19,7 +19,7 @@ Deploying the SOE from the .soe file (`..\bin\Release\NetSimpleRESTSOEWithProper
 
 
 ## Sample data
-  Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE.
+  Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE.
 
 
 ## Instructions
@@ -36,7 +36,7 @@ Deploying the SOE from the .soe file (`..\bin\Release\NetSimpleRESTSOEWithProper
 3. In the list of available capabilities, find ***.Net Simple REST SOE with Properties*** and check the box to enable it.
 4. Make sure the SOE is selected. Notice four properties appear in the ***Properties*** section.
 
-   ![](../../../../images/netsp/NetProps1.png "Net Properties Sample")
+   ![](../../../../../images/netsp/NetProps1.png "Net Properties Sample")
 5. Click the ***Save and Restart*** button to restart the service.
 
 ### Test the SOE in the ArcGIS Server Services Directory
@@ -53,7 +53,7 @@ Deploying the SOE from the .soe file (`..\bin\Release\NetSimpleRESTSOEWithProper
    This SOE root resource page displays the SOE's name, description, and its child resources.
 3. Click the ***properties*** sub-resource and it returns the name and value of the four properties.
 
-   ![](../../../../images/netsp/NetProps2.png "Net Properties Sample")
+   ![](../../../../../images/netsp/NetProps2.png "Net Properties Sample")
 4. Navigate back to the service's ***Capabilities*** page in ArcGIS Server Manager again.
 
    Modify the values of the properties and click the ***Save and Restart*** button to restart the service.

@@ -5,7 +5,7 @@ order: 6
 # Java simple SOAP SOE
 This sample illustrates how to develop a SOAP server object extension (SOE) with a new method. This SOE exposes the new method which returns the number of layers in the SOAP response, based on the layer type defined in the request.
 
-![](../../../../images/javasp/JavaSimpleSOAP0.png "Java Simple SOAP SOE Sample")
+![](../../../../../images/javasp/JavaSimpleSOAP0.png "Java Simple SOAP SOE Sample")
 
 Deploying the SOE from the .soe file (`../simplesoapsoe/target/simplesoapsoe.soe`) does not require you to open a Java IDE. However, you can open the project (`../simplesoapsoe`) in a Java IDE, such as Eclipse or IntelliJ, to debug, modify, and recompile the SOE code.
 
@@ -16,7 +16,7 @@ Deploying the SOE from the .soe file (`../simplesoapsoe/target/simplesoapsoe.soe
 
 ## Sample data
 
-Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE.
+Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE.
 
 ## Instructions
 
@@ -30,7 +30,7 @@ Any dynamic map service published from ArcGIS Pro. This instruction uses the [US
 
 ### Enable the SOE on a map service
 
-1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../ReadMe.md#1-usa-service).
+1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#1-usa-service).
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select USA map service and select ***Capabilities***.
 3. In the list of available capabilities, find ***Java Simple SOAP SOE*** and check the box to enable it.
 4. Click the ***Save and Restart*** button to restart the service.
@@ -62,4 +62,4 @@ A variety of SOAP clients, such as [SoapUI](https://www.soapui.org/downloads/soa
 </soap:Envelope>
  ```
 
-![](../../../../images/javasp/JavaSimpleSOAP4.png "Java Simple SOAP SOE Sample")
+![](../../../../../images/javasp/JavaSimpleSOAP4.png "Java Simple SOAP SOE Sample")

@@ -31,7 +31,7 @@ Deploying the SOE from the .soe file (`../simplerestsoewithcapabilities/target/s
 
 ## Sample data
 
-Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE.
+Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE.
 
 
 ## Instructions
@@ -46,7 +46,7 @@ Any dynamic map service published from ArcGIS Pro. This instruction uses the [US
 
 ### Enable the SOE on a map service
 
-1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../ReadMe.md#1-usa-service)
+1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#1-usa-service)
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select USA map service and select ***Capabilities***.
 3. In the list of available capabilities, find ***.Net Simple REST SOE with Capabilities*** and check the box to enable it.
 4. Make sure the SOE is selected.
@@ -55,7 +55,7 @@ Any dynamic map service published from ArcGIS Pro. This instruction uses the [US
 
    As only ***BusServices*** is defined as the default capabilities in the SOE, it's enabled by default. Leave ***TrainServices*** unchecked to compare the difference.
 
-   ![](../../../../images/javasp/JavaCapabilities0.png "Java Capabilities Sample")
+   ![](../../../../../images/javasp/JavaCapabilities0.png "Java Capabilities Sample")
 5. Click the ***Save and Restart*** button to restart the service.
 
 ### Test the SOE in the ArcGIS Server Services Directory
@@ -70,7 +70,7 @@ Any dynamic map service published from ArcGIS Pro. This instruction uses the [US
 
    This SOE root resource page displays the SOE's name, layer information JSON, along with the Child Resources and Supported Operations.
 
-   ![](../../../../images/javasp/JavaCapabilities1.png "Java Capabilities Sample")
+   ![](../../../../../images/javasp/JavaCapabilities1.png "Java Capabilities Sample")
 4. Click the ***NumberOfBusStations*** sub-resource and it returns a valid result, confirming this sub-resource is accessible.
 5. Navigate back to the SOE page and click the ***findBusStationById*** operation.
    Provide text in the ***busStationId*** text box and click the ***findBusStationById(GET)*** button. The text you entered in the text box will be returned, confirming this operation is accessible.

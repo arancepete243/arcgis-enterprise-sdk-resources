@@ -23,13 +23,13 @@ Deploying the SOI from the .soe file (`..\bin\Release\NetLayerAccessSOI_ent.soe`
 
 ## Sample data
 
-Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOI.
+Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOI.
 
 ## Instructions
 
 ### Set up testing environment
 
-1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../ReadMe.md#1-usa-service).
+1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#1-usa-service).
 2. Set the service's ***disableCaching*** property to true.
 
    As this sample SOI restricts user access to certain layers, it also alters the service's directory page content, which by default is cached. Therefore, you must disable service caching to view the changes on the service's directory page. This setting is only necessary when the service directory page content changes dynamically.
@@ -58,20 +58,20 @@ This environment is configured with [users and roles from the built-in store](ht
 
    To check role members, click the ***edit*** button under a role.
 
-   ![](../../../../images/netsp/NetLayer1.png "Net Layer Access SOI Sample")
+   ![](../../../../../images/netsp/NetLayer1.png "Net Layer Access SOI Sample")
 
    The ***Edit Role*** wizard will appear and show all the users assigned to this role.
 
-   ![](../../../../images/netsp/NetLayer2.png "Net Layer Access SOI Sample")
+   ![](../../../../../images/netsp/NetLayer2.png "Net Layer Access SOI Sample")
 
    You can also create users and roles under the ***Users*** and ***Roles*** tabs.
 3. Browse to ***ArcGIS Server Manager*** > ***Services*** tab.
 4. Right-click the ***Sharing Properties*** button next to the map service to secure it for logged-in users.
 
-   ![](../../../../images/netsp/NetLayer3.png "Net Layer Access SOI Sample")
+   ![](../../../../../images/netsp/NetLayer3.png "Net Layer Access SOI Sample")
 5. You can either choose ***Allow access to all users who are logged in*** or choose a role by clicking the ***Add*** button under ***Action*** so that the role is listed under ***Allowed roles***.
 
-   ![](../../../../images/netsp/NetLayer4.png "Net Layer Access SOI Sample")
+   ![](../../../../../images/netsp/NetLayer4.png "Net Layer Access SOI Sample")
 
 #### Option 2: For ArcGIS Enterprise
 This environment is configured with [built-in users using the portal's identity store](https://enterprise.arcgis.com/en/portal/latest/administer/windows/about-configuring-portal-authentication.htm#ESRI_SECTION1_AA40A239CE81485CB4F7A91BBDDFE845).
@@ -130,7 +130,7 @@ This environment is configured with [built-in users using the portal's identity 
 3. Click the upper right corner to log in with a valid user that belongs to the groups defined in permission.json.
 4. Now you will see that there are layers showing up on the directory page as follows, depending on which group the logged in user is on:
 
-   ![](../../../../images/netsp/NetLayer5.png "Net Layer Access SOI Sample")
+   ![](../../../../../images/netsp/NetLayer5.png "Net Layer Access SOI Sample")
 5. Test with [***Export Map***](https://developers.arcgis.com/rest/services-reference/export-map.htm), [***Find***](https://developers.arcgis.com/rest/services-reference/find.htm) or other operations, and observe the different results when different groups of users perform the operation.
 
 ## Troubleshooting tips

@@ -23,7 +23,7 @@ Deploying the SOE from the .soe file (`..\SimpleSoapSOE\bin\Release\NetSimpleSoa
 
 
 ## Sample data
-  Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE.
+  Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE.
 
 
 ## Instructions
@@ -38,7 +38,7 @@ Deploying the SOE from the .soe file (`..\SimpleSoapSOE\bin\Release\NetSimpleSoa
 
 ### Enable the SOE on a map service
 
-1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../ReadMe.md#1-usa-service)
+1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#1-usa-service)
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select USA map service and select ***Capabilities***.
 3. In the list of available capabilities, find ***.NET Simple SOAP SOE*** and check the box to enable it.
 4. Click the ***Save and Restart*** button to restart the service.
@@ -57,13 +57,13 @@ Deploying the SOE from the .soe file (`..\SimpleSoapSOE\bin\Release\NetSimpleSoa
 
    2. Right click ***References*** > ***Add Service Reference...***
 
-       ![](../../../../images/netsp/NetSOAP1.png "Net SOAP Sample")
+       ![](../../../../../images/netsp/NetSOAP1.png "Net SOAP Sample")
    3. Click ***Advanced...***
 
-       ![](../../../../images/netsp/NetSOAP2.png "Net SOAP Sample")
+       ![](../../../../../images/netsp/NetSOAP2.png "Net SOAP Sample")
    4. Click ***Add Web Reference...***
 
-      ![](../../../../images/netsp/NetSOAP3.png "Net SOAP Sample")
+      ![](../../../../../images/netsp/NetSOAP3.png "Net SOAP Sample")
    5. Paste the URL obtained from step i in the ***URL*** text box.
 
       Click the arrow button.
@@ -72,7 +72,7 @@ Deploying the SOE from the .soe file (`..\SimpleSoapSOE\bin\Release\NetSimpleSoa
 
       Click ***Add Reference***.
 
-      ![](../../../../images/netsp/NetSOAP4.png "Net SOAP Sample")
+      ![](../../../../../images/netsp/NetSOAP4.png "Net SOAP Sample")
 3. Copy the following code in your console application:
 
     ```c#
@@ -102,4 +102,4 @@ Deploying the SOE from the .soe file (`..\SimpleSoapSOE\bin\Release\NetSimpleSoa
 
 Other SOAP clients, such as [SoapUI](https://www.soapui.org/downloads/soapui.html), can also be used to test this SOAP SOE. By providing the SOAP client the SOE's SOAP WSDL URL, an XML request can be sent from the client application and a valid response should be returned.
 
-![](../../../../images/netsp/NetSOAP5.png "Net SOAP Sample")
+![](../../../../../images/netsp/NetSOAP5.png "Net SOAP Sample")

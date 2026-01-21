@@ -16,7 +16,7 @@ Deploying the SOI from the .soe file (`../ApplyWatermarkSOI/target/ApplyWatermar
 
 ## Sample data
 
-Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOI.
+Any dynamic map service published from ArcGIS Pro. This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOI.
 
 ## Instructions
 
@@ -30,11 +30,11 @@ Any dynamic map service published from ArcGIS Pro. This instruction uses the [US
 
 ### Enable the SOI on a map service
 
-1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../ReadMe.md#1-usa-service)
+1. Make sure you have published the USA map service using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#1-usa-service)
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select USA map service and select ***Capabilities***.
 3. In the ***Interceptors*** section, select ***Watermark SOI*** in the ***Available Interceptors*** box and click the right arrow button to move it to ***Enabled Interceptors***.
 
-   ![](../../../../images/javasp/JavaWatermarkSOI1.png "Java Watermark SOI Sample")
+   ![](../../../../../images/javasp/JavaWatermarkSOI1.png "Java Watermark SOI Sample")
 4. Click the ***Save and Restart*** button to restart the service.
 
 ### Test the SOI
@@ -49,8 +49,8 @@ Any dynamic map service published from ArcGIS Pro. This instruction uses the [US
    ```
 3. The watermark ***© ESRI Inc.*** will appear in the middle of the exported image.
 
-   ![](../../../../images/javasp/JavaWatermarkSOI2.png "Java Watermark SOI Sample")
+   ![](../../../../../images/javasp/JavaWatermarkSOI2.png "Java Watermark SOI Sample")
 
 4. Try viewing this service in ArcGIS JavaScript application or ArcGIS Online Map Viewer, and you will see the watermark is always applied:
 
-   ![](../../../../images/javasp/JavaWatermarkSOI3.png "Java Watermark SOI Sample")
+   ![](../../../../../images/javasp/JavaWatermarkSOI3.png "Java Watermark SOI Sample")

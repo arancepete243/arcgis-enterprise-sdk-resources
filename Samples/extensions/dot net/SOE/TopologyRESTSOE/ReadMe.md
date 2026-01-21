@@ -37,14 +37,14 @@ The SOE example uses the sample file geodatabase available in [ArcGIS Online](ht
 3. In the list of available capabilities, find ***Topology REST SOE*** and check the box to enable it.
 4. Click the ***Save and Restart*** button to restart the service.
 
-   ![](../../../../images/netsp/Topology_EnableMapService.png "Topology Sample")
+   ![](../../../../../images/netsp/Topology_EnableMapService.png "Topology Sample")
 
 ### Test the SOE in the ArcGIS Server Services Directory
 
 1. Open a browser and navigate to the REST services endpoint of the map service (URL: `http://<serverdomain>/<webadaptorname>/rest/services/< Map>/MapServer`).
 2. Scroll to the bottom of the above page. Find ***TopologyRESTSOE*** in ***Supported Extensions***.
 
-   ![](../../../../images/netsp/Topology_RESTSOE_Root.png "Topology Sample")
+   ![](../../../../../images/netsp/Topology_RESTSOE_Root.png "Topology Sample")
 
 3. Click the SOE name, which leads to the following URL, and then click the ***Query Adjoining Parcels*** operation
    ```
@@ -52,10 +52,10 @@ The SOE example uses the sample file geodatabase available in [ArcGIS Online](ht
    ```
    This SOE root resource page displays the SOE's name, description, usage, along with the Child Resources and Supported Operations.
 
-   ![](../../../../images/netsp/Topology_RESTSOE_ExtensionRoot.png "Topology Sample")
+   ![](../../../../../images/netsp/Topology_RESTSOE_ExtensionRoot.png "Topology Sample")
 
 4. Enter the parcel ObjectID and hit the ***Query Adjoining Parcels (GET)*** button. You will see a list of Parcel Ids and their addresses as a result.
-   ![](../../../../images/netsp/Topology_SOE_Results.png "Topology Sample")
+   ![](../../../../../images/netsp/Topology_SOE_Results.png "Topology Sample")
 
    Location of the parcel(175558) and its adjoining neighbors in the ArcGIS Pro
-   ![](../../../../images/netsp/Topology_Pro_Parcel_Illustration.png "Topology Sample")
+   ![](../../../../../images/netsp/Topology_Pro_Parcel_Illustration.png "Topology Sample")

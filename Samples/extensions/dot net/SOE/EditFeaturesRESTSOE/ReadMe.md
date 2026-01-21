@@ -18,7 +18,7 @@ Deploying the SOE from the .soe file (`..\EditFeaturesRESTSOE\bin\Release\NetEdi
 
 
 ## Sample data
-This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE. Make sure its data source is from an Enterprise Geodatabase and registered with ArcGIS Enterprise.
+This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE. Make sure its data source is from an Enterprise Geodatabase and registered with ArcGIS Enterprise.
 
 
 ## Instructions
@@ -34,12 +34,12 @@ This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as
 
 ### Enable the SOE on a map service
 
-1. Make sure you have published the USA map service whose data source is from an editable workspace using ArcGIS Pro. If not, refer to [USA map service](../../../ReadMe.md#2-veg-service).
+1. Make sure you have published the USA map service whose data source is from an editable workspace using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#2-veg-service).
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select USA map service and select ***Capabilities***.
 3. In the list of available capabilities, find ***.Net Edit Features REST SOE*** and check the box to enable it.
 4. Under ***Properties*** section, make sure that ***layerId*** is set to the layer you would like to edit. In this sample, we can set it to `0`, which is the Cities layer.
 
-![](../../../../images/netsp/NetEdit1.png "Edit features SOE sample")
+![](../../../../../images/netsp/NetEdit1.png "Edit features SOE sample")
 
 5. Click the ***Save and Restart*** button to restart the service.
 
@@ -54,7 +54,7 @@ This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as
    http://<serverdomain>/<webadaptorname>/rest/services/Veg/MapServer/exts/NetFindNearFeaturesRESTSOE
    ```
    
-   ![](../../../../images/netsp/NetEdit2.png "Edit features SOE sample")
+   ![](../../../../../images/netsp/NetEdit2.png "Edit features SOE sample")
 3. Click ***addNewFeature*** in ***Supported Operations***. 
 
    Type the following JSON in the ***featureJSON*** input box:
@@ -77,7 +77,7 @@ This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as
    ```
    Click the ***addNewFeature*** button. You will receive a response indicating this request succeeded and returning the ID of the newly-added feature returned.
    
-   ![](../../../../images/netsp/NetEdit3.png "Edit features SOE sample")   
+   ![](../../../../../images/netsp/NetEdit3.png "Edit features SOE sample")   
 4. Perform the following ***Query*** operation to confirm the feature is added:
 
    ```
@@ -89,7 +89,7 @@ This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as
 5. Click ***editFeature*** in ***Supported Operations*** on the SOE's root page. 
 
    Type the same feature ID in the ***featureId*** input box and the following updated feature JSON in the ***featureJSON*** input box. 
-   ![](../../../../images/netsp/NetEdit4.png "Edit features SOE sample")
+   ![](../../../../../images/netsp/NetEdit4.png "Edit features SOE sample")
    
    ``` JSON
    { 
@@ -107,5 +107,5 @@ This instruction uses the [USA map service](../../../ReadMe.md#1-usa-service) as
    ```
    Click the ***editFeature*** button. You will receive a response indicating this request succeeded and returning the ID of the feature that has been updated. You can also repeat the last step to confirm this updated result by performing a ***Query*** operation.
    
-   ![](../../../../images/netsp/NetEdit4.png "Edit features SOE sample")   
+   ![](../../../../../images/netsp/NetEdit4.png "Edit features SOE sample")   
 4. Perform the following ***Query*** operation to confirm the feature is added:
