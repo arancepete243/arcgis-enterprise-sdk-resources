@@ -1,3 +1,0 @@
-C:\Users\fan11765\source\repos\TopologyRESTSOE\TopologyRESTSOE\obj\Debug\net6.0\TopologyRESTSOE.csproj.AssemblyReference.cache
-C:\Users\fan11765\source\repos\TopologyRESTSOE\TopologyRESTSOE\obj\Debug\net6.0\TopologyRESTSOE.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\fan11765\source\repos\TopologyRESTSOE\TopologyRESTSOE\obj\Debug\net6.0\TopologyRESTSOE.csproj.CoreCompileInputs.cache
