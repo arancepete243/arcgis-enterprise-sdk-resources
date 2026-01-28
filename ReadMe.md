@@ -40,7 +40,7 @@ To get started, visit [ArcGIS Enterprise SDK Overview](https://developers.arcgis
 ## Resources
 * [ArcGIS Enterprise SDK Developer Guide](https://developers.arcgis.com/enterprise-sdk/)
 * [ArcGIS Server - Extending services](https://enterprise.arcgis.com/en/server/latest/develop/windows/about-extending-services.htm)
-
+* [ArcGIS Server - Custom data feeds](https://enterprise.arcgis.com/en/server/latest/develop/windows/custom-data-feeds.htm)
 
 ## Issues
 Find a bug or want to request a new feature?  Please let us know by submitting an issue or [contact Technical Support](https://support.esri.com/en/contact-tech-support).
