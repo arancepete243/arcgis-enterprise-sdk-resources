@@ -19,7 +19,7 @@ Deploying the SOE from the .soe file (`..\EditAnnotationRESTSOE\bin\Debug\EditAn
 
 
 ## Sample data
-This instruction uses the [Annotation Map Service](../../../../../../ReadMe.md) as the sample service to test with the SOE. Make sure its data source is from an Enterprise GeoDatabase and registered with ArcGIS Enterprise.
+This instruction uses the [Annotation Map Service](../../../../../ReadMe.md) as the sample service to test with the SOE. Make sure its data source is from an Enterprise GeoDatabase and registered with ArcGIS Enterprise.
 
 
 ## Instructions
@@ -34,7 +34,7 @@ This instruction uses the [Annotation Map Service](../../../../../../ReadMe.md) 
 
 ### Enable the SOE on a map service
 
-1. Make sure you have published the Annotation map service whose data source is from an editable workspace using ArcGIS Pro. If not, refer to [Annotation Map Service](../../../../../../ReadMe.md).
+1. Make sure you have published the Annotation map service whose data source is from an editable workspace using ArcGIS Pro. If not, refer to [Annotation Map Service](../../../../../ReadMe.md).
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select Annotation map service and select ***Capabilities***.
 3. In the list of available capabilities, find ***.Net Edit Annotation REST SOE*** and check the box to enable it.
 4. Under ***Properties*** section, make sure that ***layerId*** is set to the layer you would like to edit. In this sample, we can set it to `0`, which is the citiesAnno layer.
