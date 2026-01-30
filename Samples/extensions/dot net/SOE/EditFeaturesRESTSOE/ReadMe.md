@@ -18,7 +18,7 @@ Deploying the SOE from the .soe file (`..\EditFeaturesRESTSOE\bin\Release\NetEdi
 
 
 ## Sample data
-This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE. Make sure its data source is from an Enterprise Geodatabase and registered with ArcGIS Enterprise.
+This instruction uses the [USA map service](../../../../../ReadMe.md#1-usa-service) as the sample service to test with the SOE. Make sure its data source is from an Enterprise Geodatabase and registered with ArcGIS Enterprise.
 
 
 ## Instructions
@@ -34,7 +34,7 @@ This instruction uses the [USA map service](../../../../ReadMe.md#1-usa-service)
 
 ### Enable the SOE on a map service
 
-1. Make sure you have published the USA map service whose data source is from an editable workspace using ArcGIS Pro. If not, refer to [USA map service](../../../../ReadMe.md#2-veg-service).
+1. Make sure you have published the USA map service whose data source is from an editable workspace using ArcGIS Pro. If not, refer to [USA map service](../../../../../ReadMe.md#2-veg-service).
 2. Log in to ArcGIS Server Manager and click the ***Services*** tab. Select USA map service and select ***Capabilities***.
 3. In the list of available capabilities, find ***.Net Edit Features REST SOE*** and check the box to enable it.
 4. Under ***Properties*** section, make sure that ***layerId*** is set to the layer you would like to edit. In this sample, we can set it to `0`, which is the Cities layer.
