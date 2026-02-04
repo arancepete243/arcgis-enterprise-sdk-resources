@@ -1,5 +1,5 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const config = require('config');
+const config = require('./mongo-config.json');
 const { performEdits } = require('./perform-edits');
 
 class Model {
@@ -35,14 +35,21 @@ class Model {
     }
   }
 
-  async editData(req) {
+  async getMetadata() {
+    return {
+        idField: 'alternateID',
+        inputCrs: 4326
+    }
+  }
+
+  async editData(req, editData) {
 
     // assign database and collection name from path parameters
-    const databaseName = req.params.host;
-    const collectionName = req.params.id;
+    const databaseName = req.params.db;
+    const collectionName = req.params.collection;
 
     // add logic to normalize layer-level or service-level requests
-    const extractedEdits = normalizeRequestedEdits(req.body);
+    // const extractedEdits = normalizeRequestedEdits(req.body);
 
     const database  = this.#client.db(databaseName);
     const collection = database.collection(collectionName);
@@ -50,14 +57,14 @@ class Model {
     let applyEditsResponse = {};  // initialize the response object
 
     // call the necessary functions to handled the edits
-    applyEditsResponse = await performEdits(collection, extractedEdits.edits);
+    applyEditsResponse = await performEdits(collection, editData);
 
     // check if the response should be an object(layer-level) or an array(service-level)
-    if (extractedEdits.editLevel === 'service') {
-      applyEditsResponse.id = extractedEdits.layer;
-      return [applyEditsResponse];
+    // if (extractedEdits.editLevel === 'service') {
+    //   applyEditsResponse.id = extractedEdits.layer;
+    //   return [applyEditsResponse];
 
-    }
+    // }
 
     return applyEditsResponse;
 
@@ -66,8 +73,8 @@ class Model {
   // this a very basic getData function that operates as full-fetch
   async getData(req) {
 
-    const databaseName = req.params.host;
-    const collectionName = req.params.id;
+    const databaseName = req.params.db;
+    const collectionName = req.params.collection;
 
     try {
 
@@ -82,6 +89,7 @@ class Model {
 
       return {...geojson, metadata: { 
         idField: 'alternateID', 
+        inputCrs: 4326,
         name: 'Fires',
         templates: [
           {

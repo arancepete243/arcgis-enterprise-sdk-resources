@@ -1,0 +1,28 @@
+{
+  "name": "csv-provider",
+  "arcgisVersion": "12.0.0",
+  "parentServiceType": "FeatureServer",
+  "customdataRuntimeVersion": "1",
+  "type": "provider",
+  "editingEnabled": false,
+  "properties": {
+    "serviceParameters": [
+      {
+        "key": "file_name",
+        "label": "File Name",
+        "description": "Name of the CSV file."
+      },
+      {
+        "key": "lat_column",
+        "label": "Latitude column",
+        "description": "Name of CSV column that specifies latitude."
+      },
+      {
+        "key": "long_column",
+        "label": "Longitude column",
+        "description": "Name of CSV column that specifies longitude."
+      }
+    ]
+  },
+  "fileName": "csv-provider.cdpk"
+}

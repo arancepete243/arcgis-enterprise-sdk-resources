@@ -5,6 +5,13 @@ This sample demonstrates how to create an [editing-enabled custom data provider]
 _Before you begin, you will need to setup your own MongoDB instance and populate it 
 with the provided dataset_. The data are found in **data/wildfires-sample.json**.
 
+## Supported ArcGIS Enterprise SDK Versions
+**12.0**
+
+Looking for 11.x versions of this sample?
+[11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/mongodb-editing-points),
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/mongodb-editing-points)
+
 ## How the Provider Works
 
 This sample provider will read and write to a MongoDB instance that is populated
@@ -39,44 +46,71 @@ Notice in the document above the attribute `alternateID`. ArcGIS does not curren
     the **src** folder inside your **providers/editable-mongodb-points/src**
     directory.
 4.  Navigate to the **providers/editable-mongodb-points** directory in a
-    command prompt, and run the command `npm install config mongodb proj4 @esri/proj-codes` to install the needed modules. _`proj4` and `@esri/proj-codes` are tools that are used for coordinate system conversion._
+    command prompt, and run the command `npm install mongodb`.
 
 ## Configure the Provider
 
-1.  In the **providers/editable-mongodb-points/cdconfig.json** file, set the value of the
-    `properties.hosts` field to `true` and
-    `properties.disableIdParam` field to `false`.
+1.  In the **providers/editable-mongodb-points/cdconfig.json** file, add the following to the `serviceParameters` array:
 
-2.  In the **providers/editable-mongodb-points/config** directory, configure your MongoDB
-    connection in the **default.json** file. It will look similar to this:
+    ```json
+        {
+            "key": "db",
+            "label": "database",
+            "description": "Name of Mongo database"
+        },
+        {
+            "key": "collection",
+            "label": "collection",
+            "description": "Name of Mongo collection"
+        }
+    ```
 
-````json
-{
-    "editable_mongodb_points": {
-        "connectString": "mongodb://127.0.0.1:27017",
-        "definedCollectionsOnly": true,
-        "databases": {
-            "editable-sample-fires": {
-                "fires": {
-                    "geometryField": "location",
-                    "idField": "alternateID",
-                    "cacheTtl": 0,
-                    "crs": 4326,
-                    "maxRecordCount": 2000
+    Set `"editingEnabled": true`.
+
+
+2.  Create a file the **providers/editable-mongodb-points/src** directory called **mongo-config.json** with the following code:
+
+    ```json
+        {
+            "editable_mongodb_points": {
+                "connectString": "mongodb://127.0.0.1:27017",
+                "definedCollectionsOnly": true,
+                "databases": {
+                    "editable-sample-fires": {
+                        "fires": {
+                            "geometryField": "location",
+                            "idField": "alternateID",
+                            "cacheTtl": 0,
+                            "crs": 4326,
+                            "maxRecordCount": 2000
+                        }
+                    }
                 }
             }
         }
-    }
-}
-````
+    ```
 
 ## Test the Provider
 
 1.  Navigate to the **mongodb-app** directory in a command prompt and
     run the `npm start` command to start the custom data app.
-2.  In a web browser, navigate to
-    http://localhost:8080/editable-mongodb-points/rest/services/editable-sample-fires/fires/FeatureServer/0/query,
-    and verify that the MongoDB provider is returning data points.
+2.  Send a GET request
+    to: http://localhost:8080/editable-monogodb-points/rest/services/FeatureServer/0/query with the header `x-esri-cdf-service-params` and value `{"database": "editable-sample-fires", "collection": "fires"}`.
+    Verify that the provider is returning data points.
+3. Send a properly formatted POST request to: http://localhost:8080/editable-monogodb-points/rest/services/FeatureServer/applyEdits with the header `x-esri-cdf-service-params` and value `{"database": "editable-sample-fires", "collection": "fires"}`. Sample POST request:
+
+    ```curl
+        curl --location 'https://localhost:8080/editable-mongodb-points/rest/services/FeatureServer/applyEdits' \
+        --header 'x-esri-cdf-service-params: {"collection": "fires","db": "editable-sample-fires"}' \
+        --header 'Content-Type: application/x-www-form-urlencoded' \
+        --data-urlencode 'f=json' \
+        --data-urlencode 'rollbackOnFailure=true' \
+        --data-urlencode 'useGlobalIds=false' \
+        --data-urlencode 'async=false' \
+        --data-urlencode 'edits=[{"id":0,"adds":[{"geometry":{"spatialReference":{"latestWkid":3857,"wkid":102100},"x":-11580849.34814877,"y":5772969.114195114},"attributes":{"fireId":"44444","fireName":"Big One","fireType":"Wild","acres":"3434"}}],"updates":null,"deletes":null,"attachments":null,"assetMaps":null}]' \
+        --data-urlencode 'returnServiceEditOptions=originalAndCurrentFeatures'
+
+    ```
 
 ## Build and Deploy the Custom Data Provider Package File
 
@@ -137,8 +171,11 @@ Notice in the document above the attribute `alternateID`. ArcGIS does not curren
         "jsonProperties": {
             "customDataProviderInfo": {
                 "dataProviderName": "editable-mongodb-points",
-                "dataProviderHost": "editable-sample-fires",
-                "dataProviderId": "fires"
+                "serviceParameters" :
+                {
+                    "database": "editable-sample-fires",
+                    "collection": "fires"
+                }
             }
         },
         "extensions": [],
@@ -157,9 +194,9 @@ Notice in the document above the attribute `alternateID`. ArcGIS does not curren
 ![](./images/cdf-editable-mongodb-points.png)
 
 _Keep in mind that the provider code we used above assumes a database named
-**editable-sample-fires** and a collection named **fires**. If you used different names
-in your MongoDB instance, update the values of_ `dataProviderHost` _and_ 
-`dataProviderId` _accordingly._
+**editable-sample-fires** and a collection named **fires**.
+
+Alternatively, you can create the feature service in ArcGIS Server Manager or in the Portal for ArcGIS Home Application. Use the service parameter values listed above when configuring the service.
 
 ## Consume Feature Service
 

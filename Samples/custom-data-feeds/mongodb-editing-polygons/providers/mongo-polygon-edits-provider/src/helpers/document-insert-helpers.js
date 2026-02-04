@@ -1,10 +1,6 @@
 const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
-const codes = require('@esri/proj-codes');
-const proj4 = require('proj4');
 const { DatabaseSuccess, DatabaseFailure } = require('../classes/response-classes');
-const CONSTANTS = require('../constants/constants.json');
-
 
 async function insertMongoDocs(collection, adds) {
     let addsArray =[]
@@ -18,24 +14,12 @@ async function insertMongoDocs(collection, adds) {
 }
 
 function transformToDatasourceJson(record) {
-  // check if the incoming SR is the same as the data SR; if different, convert and modify the record
-  const featureSR = record.geometry.spatialReference.wkid;
-  if (featureSR !== CONSTANTS.SOURCE_CRS_WKID) {
-      // look up the code
-      const crs = codes.lookup(featureSR);
-      // convert coordinates from what is currently in client to our data source crs
-      const convertedCoordinates = record.geometry.rings.map(ring => 
-          ring.map(coord => proj4(crs.wkt, `EPSG:${CONSTANTS.SOURCE_CRS_WKID}`, coord))
-      );
-      // push the converted coordinates into the array 
-      record.geometry.rings = convertedCoordinates;
-  }
 
   const transformedJson = {
-      fireId: record.attributes.fireId.toString(),
-      fireName: record.attributes.fireName,
-      fireType: record.attributes.fireType,
-      acres: record.attributes.acres,
+      fireId: record.properties.fireId.toString(),
+      fireName: record.properties.fireName,
+      fireType: record.properties.fireType,
+      acres: record.properties.acres,
       location: {
           type: "Polygon",
           coordinates: record.geometry.rings
@@ -85,7 +69,6 @@ async function updateIdFieldAndVerify(collection, insertResults, adds) {
       attempts++;
     }
 
-    // const verifiedDocs = await returnDocsByAlternateId(collection, hashedIDs);
   
     // add the alternateIDs (ie OBJECTID) to the final response object
     // loop for the number of objects user intended to insertedIds

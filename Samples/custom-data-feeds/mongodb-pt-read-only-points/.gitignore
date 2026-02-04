@@ -1,5 +1,6 @@
 # Ignore the top-level config folder
 /config/
+/providers/mongodb-provider/src/mongodb-provider-config.json
 
 # Ignore the framework folder
 /framework/

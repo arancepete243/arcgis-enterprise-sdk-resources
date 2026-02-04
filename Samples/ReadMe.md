@@ -22,8 +22,17 @@ The following three services are used in the samples:
 3. **Naperville service**
 
     This service is used to test with the [utility network tracing REST SOE](dot%20net/SOE/UNTracingRESTSOE), which is available since 10.8.1. You can follow the instructions at [Electric Utility Network Foundation](https://solutions.arcgis.com/electric/help/electric-utility-network-foundation/) to load the Naperville demo data in an Enterprise Geodatabase and publish it as the NapervilleElectricFoundation service on ArcGIS Enterprise.
-   
-   
+
+4. **Annotation map service**
+
+    This service is used to test with the [.NET Edit Annotation REST SOE](dot%20net/SOE/EditAnnotationRESTSOE/), which is available since 12.0. please follow below instruction.
+    1. Open an ArcGIS Pro map.
+    2. Add citiesAnno feature class from [AnnotationData](dot%20net/SOE/EditAnnotationRESTSOE/AnnotationData/AnnotationData.gdb/).
+    3. Share the map as a web layer. Make sure the map service must be from an Enterprise GeoDatabase that is registered with ArcGIS Enterprise.
+    4. publish a map service is editable.
+
+
+
 ## Samples
 ### For .NET
 * **.NET SOE Samples**

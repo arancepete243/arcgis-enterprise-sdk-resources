@@ -1,8 +1,8 @@
 # arcgis-enterprise-sdk-resources
 
-This repository provides samples and code snippets for server object extensions (SOEs), server object interceptors (SOIs) and custom data feeds (CDF) built with **11.5** ArcGIS Enterprise SDK. Learn more about [ArcGIS Enterprise SDK](https://developers.arcgis.com/enterprise-sdk/).
+This repository provides samples and code snippets for server object extensions (SOEs), server object interceptors (SOIs), custom data feeds (CDF) and Service Interceptors built with **12.0** ArcGIS Enterprise SDK. Learn more about [ArcGIS Enterprise SDK](https://developers.arcgis.com/enterprise-sdk/).
 
-> Note: If you want to download the SOE and SOI samples built with 11.5 or previous versions of ArcGIS Enterprise SDK, refer to [Releases](https://github.com/Esri/arcgis-enterprise-sdk-resources/releases).
+> Note: If you want to download the SOE, SOI or Custom data feeds (CDF) samples built with 11.5 or previous versions of ArcGIS Enterprise SDK, refer to [Releases branch](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0?tab=readme-ov-file).
 
 An SOI is capable of intercepting REST, SOAP, and OGC requests and responses of a map service in the following way:
 <p align="center">
@@ -40,7 +40,7 @@ To get started, visit [ArcGIS Enterprise SDK Overview](https://developers.arcgis
 ## Resources
 * [ArcGIS Enterprise SDK Developer Guide](https://developers.arcgis.com/enterprise-sdk/)
 * [ArcGIS Server - Extending services](https://enterprise.arcgis.com/en/server/latest/develop/windows/about-extending-services.htm)
-
+* [ArcGIS Server - Custom data feeds](https://enterprise.arcgis.com/en/server/latest/develop/windows/custom-data-feeds.htm)
 
 ## Issues
 Find a bug or want to request a new feature?  Please let us know by submitting an issue or [contact Technical Support](https://support.esri.com/en/contact-tech-support).
