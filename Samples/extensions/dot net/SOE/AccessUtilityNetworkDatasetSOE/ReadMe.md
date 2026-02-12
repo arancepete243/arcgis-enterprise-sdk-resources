@@ -1,5 +1,8 @@
 ---
 order: 11
+tags:
+  - Samples
+  - net
 ---
 
 # .NET Open an Extension Dataset REST SOE

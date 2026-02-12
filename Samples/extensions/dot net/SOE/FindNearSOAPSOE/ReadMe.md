@@ -1,5 +1,8 @@
 ---
 order: 10
+tags:
+  - Samples
+  - net
 ---
 
 # .NET find near features SOAP SOE

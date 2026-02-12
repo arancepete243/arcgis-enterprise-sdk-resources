@@ -1,5 +1,8 @@
 ---
 order: 12
+tags:
+  - Samples
+  - net
 ---
 
 # .NET Query Network Dataset REST SOE

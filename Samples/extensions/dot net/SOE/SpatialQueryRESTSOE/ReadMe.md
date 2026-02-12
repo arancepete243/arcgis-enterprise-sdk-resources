@@ -1,5 +1,8 @@
 ---
 order: 4
+tags:
+  - Samples
+  - net
 ---
 
 # .NET spatial query REST SOE
