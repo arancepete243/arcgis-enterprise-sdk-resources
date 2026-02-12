@@ -1,5 +1,8 @@
 ---
 order: 5
+tags:
+  - Samples
+  - net
 ---
 
 # .NET find nearby features REST SOE

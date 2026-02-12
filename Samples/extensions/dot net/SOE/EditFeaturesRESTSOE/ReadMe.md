@@ -1,5 +1,8 @@
 ---
 order: 6
+tags:
+  - Samples
+  - net
 ---
 
 # .NET edit features REST SOE

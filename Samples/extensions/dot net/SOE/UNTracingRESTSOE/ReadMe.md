@@ -1,3 +1,9 @@
+---
+order: 13
+tags:
+  - Samples
+  - net
+---
 # .NET utility network tracing REST SOE
 
 This sample demonstrates how to use the utility network tracing capabilities to get the list of customers serviced by a single medium-voltage transformer. The UNTracing REST SOE has two operations called ***getMVTransformerAssetIds*** and ***getCustomers***. The first operation queries the Electric Device layer to return a list of medium-voltage transformer asset IDs that can then be used in the second operation to retrieve the list of service points and customers connected to that transformer. Also, the root resource of this SOE returns information about the utility network.

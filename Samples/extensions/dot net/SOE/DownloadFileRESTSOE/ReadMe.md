@@ -1,5 +1,8 @@
 ---
 order: 7
+tags:
+  - Samples
+  - net
 ---
 
 # .NET download file REST SOE

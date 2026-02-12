@@ -1,5 +1,8 @@
 ---
 order: 8
+tags:
+  - Samples
+  - net
 ---
 
 # .NET Get Raster Statistics REST SOE
