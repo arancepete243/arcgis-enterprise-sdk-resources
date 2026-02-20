@@ -1,5 +1,8 @@
 ---
 order: 3
+tags:
+  - Samples
+  - net
 ---
 
 # .NET simple REST SOE with properties

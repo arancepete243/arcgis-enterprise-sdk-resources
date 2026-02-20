@@ -1,5 +1,8 @@
 ---
 order: 15
+tags:
+  - Samples
+  - net
 ---
 
 # .NET Edit Annotation REST SOE

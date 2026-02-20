@@ -1,5 +1,8 @@
 ---
 order: 9
+tags:
+  - Samples
+  - net
 ---
 
 # .NET simple SOAP SOE

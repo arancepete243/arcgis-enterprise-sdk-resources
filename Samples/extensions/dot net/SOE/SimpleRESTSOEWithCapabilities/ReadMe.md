@@ -1,5 +1,8 @@
 ---
 order: 2
+tags:
+  - Samples
+  - net
 ---
 
 # .NET simple REST SOE with capabilities
