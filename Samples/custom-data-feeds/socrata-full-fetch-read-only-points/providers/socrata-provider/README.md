@@ -15,7 +15,7 @@ Looking for 11.x versions of this sample?
 
 1.  Run the `cdf createapp socrata-app` command to create a new custom
     data app or use an existing custom data app.
-2.  Run the `cdf createprovider socrata-provider` command to create a
+2.  CD into socrata-app and run the `cdf createprovider socrata-provider` command to create a
     custom data provider.
 3.  Navigate to the **providers/socrata-provider** directory in a
     command prompt and run the `npm i config lodash` command.
