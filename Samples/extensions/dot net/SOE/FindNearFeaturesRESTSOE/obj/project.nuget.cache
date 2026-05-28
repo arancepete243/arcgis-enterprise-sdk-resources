@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TvYGmx1MsBE=",
+  "dgSpecHash": "R1k6mEktlAE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\fan11765\\Documents\\GIthub\\arcgis-enterprise-sdk-resources\\Samples\\dot net\\SOE\\FindNearFeaturesRESTSOE\\NetFindNearFeaturesRESTSOE.csproj",
+  "projectFilePath": "C:\\GitHub_repo\\arcgis-enterprise-sdk-resources\\Samples\\extensions\\dot net\\SOE\\FindNearFeaturesRESTSOE\\NetFindNearFeaturesRESTSOE.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

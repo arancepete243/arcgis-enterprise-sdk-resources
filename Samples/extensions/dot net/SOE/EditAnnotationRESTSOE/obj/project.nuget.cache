@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dJEboeLNCb8=",
+  "dgSpecHash": "Oxopgvisu9k=",
   "success": true,
-  "projectFilePath": "C:\\Users\\fan11765\\Desktop\\Samples\\DotNet\\EditAnnotationRESTSOE\\EditAnnotationRESTSOE.csproj",
+  "projectFilePath": "C:\\GitHub_repo\\arcgis-enterprise-sdk-resources\\Samples\\extensions\\dot net\\SOE\\EditAnnotationRESTSOE\\EditAnnotationRESTSOE.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fan11765\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\8.0.0\\microsoft.aspnetcore.jsonpatch.8.0.0.nupkg.sha512",
     "C:\\Users\\fan11765\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\8.0.0\\microsoft.aspnetcore.mvc.newtonsoftjson.8.0.0.nupkg.sha512",
