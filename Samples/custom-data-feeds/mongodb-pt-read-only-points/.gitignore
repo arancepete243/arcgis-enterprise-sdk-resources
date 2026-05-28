@@ -20,6 +20,8 @@
 /package.json
 /package-lock.json
 /providers/mongodb-provider/package-lock.json
+/providers/mongodb-provider/mongodb-provider-config.json
+
 
 # Ignore cdpks
 *.cdpk

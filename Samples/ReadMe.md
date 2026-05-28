@@ -82,11 +82,11 @@ The following three services are used in the samples:
   * [Overview of building Java SOAP client application](java/Java%20SOAP%20Client)
 
 ### For Custom Data Feeds
-* [csv full fetch ready only points](custom-data-feeds/csv-full-fetch-ready-only-points)
+* [csv full fetch read only points](custom-data-feeds/csv-full-fetch-read-only-points)
 * [duckdb pass through read only points](custom-data-feeds/duckdb-pt-read-only-points)
 * [google sheets editing points](custom-data-feeds/google-sheets-editing-points)
 * [mongodb editing polygons](custom-data-feeds/mongodb-editing-polygons)
 * [mongodb pt read only points](custom-data-feeds/mongodb-pt-read-only-points)
-* [nrel hybrid ready only points](custom-data-feeds/nrel-hybrid-ready-only-points)
+* [nrel hybrid read only points](custom-data-feeds/nrel-hybrid-read-only-points)
 * [socrata full fetch read only points](custom-data-feeds/socrata-full-fetch-read-only-points)
-* [yelp full fetch ready only points](custom-data-feeds/yelp-full-fetch-ready-only-points)
+* [yelp full fetch read only points](custom-data-feeds/yelp-full-fetch-read-only-points)

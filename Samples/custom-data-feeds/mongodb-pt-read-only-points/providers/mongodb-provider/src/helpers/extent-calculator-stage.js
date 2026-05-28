@@ -1,8 +1,6 @@
 function extentCalculatorStage(geometryField) {
-  // console.log(geometryField);
-  // console.log(coordinates);
   return {
-    alternateID: null,
+    _id:{},
     result: {
       $accumulator: {
         init: `function () {

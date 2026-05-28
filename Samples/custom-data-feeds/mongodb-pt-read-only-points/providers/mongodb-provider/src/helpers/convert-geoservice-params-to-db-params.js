@@ -20,7 +20,7 @@ function convertGeoserviceParamsToDbParams(params) {
     idField,
     inSR,
     spatialRel,
-    dataCRS,
+    inputCrs,
   } = params;
 
   // Convert geoservice where, objectIds, resultRecordCount, result offset to SQL equivalent
@@ -43,7 +43,7 @@ function convertGeoserviceParamsToDbParams(params) {
     geometry,
     inSR,
     spatialRel,
-    reprojectionSR: dataCRS,
+    reprojectionSR: inputCrs,
   });
 
   const { query, pipeline } = addGeometryFilter(

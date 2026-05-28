@@ -12,7 +12,7 @@ const {
 let numberOfRequests = 0;
 
 class Model {
-	constructor(koop) {
+	constructor() {
 
 		this.db = new duckdb.Database(":memory:");
 		const deltaConfig = koopConfig.duckdb.sources.deltaTable;

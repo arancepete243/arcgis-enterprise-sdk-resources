@@ -102,10 +102,17 @@ class Model {
   }
 
   #parseParams(params) {
-    const { returnCountOnly, returnExtentOnly } = params;
+    const { returnCountOnly, returnExtentOnly, inSR } = params;
+    let sr;
+    try {
+      sr = JSON.parse(inSR);
+    } catch (error) {
+      sr = inSR;
+    }
 
     return {
       ...params,
+      inSR: sr,
       returnCountOnly: typeof returnCountOnly === 'boolean' ? returnCountOnly : returnCountOnly === 'true',
       returnExtentOnly: typeof returnExtentOnly === 'boolean' ? returnExtentOnly : returnExtentOnly === 'true'
     };

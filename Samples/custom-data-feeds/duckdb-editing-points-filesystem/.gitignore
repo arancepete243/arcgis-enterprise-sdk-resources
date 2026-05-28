@@ -10,7 +10,6 @@
  
 # Ignore test
 /providers/duckdb-filesystem-provider/test/
-/providers/duckdb-filesystem-provider/src/duckdb-config.json
  
 # Ignore app-level src
 /src
