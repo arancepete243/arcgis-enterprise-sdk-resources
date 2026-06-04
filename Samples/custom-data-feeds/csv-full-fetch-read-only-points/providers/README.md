@@ -9,7 +9,7 @@ integrates the data with ArcGIS Enterprise.
 Looking for prior versions of this sample?
 [11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/csv-full-fetch-ready-only-points),
 [11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/csv-full-fetch-ready-only-points),
-[12.0](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v12.0.0/Samples/custom-data-feeds/csv-full-fetch-ready-only-points)
+[12.0](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v12.0.0/Samples/custom-data-feeds/csv-full-fetch-read-only-points)
 
 ## Set up the Provider
 
