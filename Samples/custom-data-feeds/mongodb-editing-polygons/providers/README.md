@@ -5,11 +5,12 @@ _Before you begin, you will need to setup your own MongoDB instance and populate
 with the provided dataset_. The data are found in **data/polygon.json**.
 
 ## Supported ArcGIS Enterprise SDK Versions
-**12.0**
+**12.1**
 
-Looking for 11.x versions of this sample?
+Looking for prior versions of this sample?
 [11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/mongodb-editing-polygons),
-[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/mongodb-editing-polygons)
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/mongodb-editing-polygons),
+[12.0](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v12.0.0/Samples/custom-data-feeds/mongodb-editing-polygons)
 
 ## How the Provider Works
 
@@ -195,6 +196,12 @@ Notice in the document above the attribute `alternateID`. ArcGIS does not curren
                         "db": "edit-polygon-db", 
                         "collection": "polygons"
                     }
+            },
+            "customDataServiceInfo": {
+                "cache": {
+                    "expiration": 0,
+                    "enabled": false
+                }
             }
         },
         "extensions": [],

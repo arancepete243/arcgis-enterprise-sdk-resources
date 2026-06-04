@@ -4,11 +4,12 @@ This sample demonstrates how to create an [editing-enabled custom data provider]
 _Before you begin, you will need to setup your Google Sheet and obtain Google developer credentials if you don't already have them._
 
 ## Supported ArcGIS Enterprise SDK Versions
-**12.0**
+**12.1**
 
-Looking for 11.x versions of this sample?
+Looking for prior versions of this sample?
 [11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/google-sheets-editing-points),
-[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/google-sheets-editing-points)
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/google-sheets-editing-points),
+[12.0](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v12.0.0/Samples/custom-data-feeds/google-sheets-editing-points)
 
 ## How the Provider Works
 
@@ -92,7 +93,7 @@ Follow these basic steps for setting up a Google Sheet and obtaining developer c
     run the `npm start` command to start the custom data app.
 2.  Send a GET request with the header `x-esri-cdf-service-params` and value `{"docID": "<doc-id>", "sheetName": 
     "Shoe_Stores" }`
-    http://localhost:8080/google-sheets-provider/rest/services/googleDocumentId/sheetName/FeatureServer/0/query,
+    http://localhost:8080/google-sheets-provider/rest/services/FeatureServer/0/query,
     and verify that the Google Sheets provider is returning data points.
 3.  Send a properly formatted POST request
     to: http://localhost:8080/google-sheets-provider/rest/services/FeatureServer/applyEdits with the header `x-esri-cdf-service-params` and value `{"docID": "<doc-id>", "sheetName": "Shoe_Stores" }`. Sample POST request:
@@ -167,6 +168,12 @@ Follow these basic steps for setting up a Google Sheet and obtaining developer c
                 "serviceParameters": {
                     "docID": "<document id>", 
                     "sheetName": "Shoe_Stores" 
+                }
+            },
+            "customDataServiceInfo": {
+                "cache": {
+                    "expiration": 0,
+                    "enabled": false
                 }
             }
         },
