@@ -3,11 +3,12 @@
 This sample demonstrates how to create an [editing-enabled custom data provider](https://developers.arcgis.com/enterprise-sdk/guide/custom-data-feeds/editable-custom-data-provider/) that allows for creating, reading, updating, and deleting polygon features served from a DuckDB on the machine local filesystem. The database you need for this sample is available here: **data/ny.duckdb**. Furthermore, this samples shows how it is possible to make use of transaction logic with the `rollbackOnFailure` parameter.
 
 ## Supported ArcGIS Enterprise SDK Versions
-**12.0**
+**12.1**
 
-Looking for 11.x versions of this sample?
+Looking for prior versions of this sample?
 [11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/duckdb-editing-points-filesystem),
-[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/duckdb-editing-points-filesystem)
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/duckdb-editing-points-filesystem),
+[12.0](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v12.0.0/Samples/custom-data-feeds/duckdb-editing-points-filesystem)
 
 ## How the Provider Works
 
@@ -62,9 +63,9 @@ with rows of fictional data for New York taxi cabs.
 1.  Navigate to the **duckdb-editing-points-filesystem** app-level directory in a command prompt and
     run the `npm start` command to start the custom data app.
 2.  Send a GET request to 
-    http://localhost:8080/duckdb-filesystem-provider/rest/services/localParquet/FeatureServer/0/query
+    http://localhost:8080/duckdb-filesystem-provider/rest/services/FeatureServer/0/query
     and verify that the DuckDB provider returns a feature.
-3. Send a POST request to http://localhost:8080/duckdb-filesystem-provider/rest/services/localParquet/FeatureServer/applyEdits with a properly formatted payload. Sample POST request:
+3. Send a POST request to http://localhost:8080/duckdb-filesystem-provider/rest/services/FeatureServer/applyEdits with a properly formatted payload. Sample POST request:
 
     ```curl
         curl --location 'https://localhost:8080/duckdb-filesystem-provider/rest/services/FeatureServer/applyEdits' \
@@ -138,7 +139,13 @@ with rows of fictional data for New York taxi cabs.
             "customDataProviderInfo": {
                 "dataProviderName": "duckdb-filesystem-provider",
                 "serviceParameters": []
-            }
+            },
+            "customDataServiceInfo": {
+              "cache": {
+                "expiration": 0,
+                "enabled": false
+              }
+           }
         },
         "extensions": [],
         "frameworkProperties": {},

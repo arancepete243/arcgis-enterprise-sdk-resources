@@ -6,11 +6,12 @@ name. This provider also demonstrates how to change the services default
 labeling and feature styling.
 
 ## Supported ArcGIS Enterprise SDK Versions
-**12.0**
+**12.1**
 
-Looking for 11.x versions of this sample?
+Looking for prior versions of this sample?
 [11.4](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.4.0/Samples/custom-data-feeds/yelp-full-fetch-ready-only-points),
-[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/yelp-full-fetch-ready-only-points)
+[11.5](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v11.5.0/Samples/custom-data-feeds/yelp-full-fetch-ready-only-points),
+[12.0](https://github.com/Esri/arcgis-enterprise-sdk-resources/tree/release-v12.0.0/Samples/custom-data-feeds/yelp-full-fetch-read-only-points)
 
 ## Set up the Provider
 
@@ -131,6 +132,12 @@ Looking for 11.x versions of this sample?
             "category": "restaurants",
             "city": "Redlands"
           }
+        },
+        "customDataServiceInfo": {
+            "cache": {
+                "expiration": 0,
+                "enabled": false
+            }
         }
       },
       "extensions": [],
